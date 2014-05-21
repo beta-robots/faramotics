@@ -83,8 +83,6 @@ class CrangeImage : public CsceneRender
 		*/
 		vector<int> kV;
 
-		//vector<float> cosHi, cosVi; /**<precomputed values for the cos(alpha_i)*/
-		
 		/**
 		* \brief Initialization
 		* 

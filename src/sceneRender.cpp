@@ -2,18 +2,14 @@
 
 CsceneRender::CsceneRender(bool visible)
 {
-	//glutIsInit = false; //this variable should be shared by all instances to this object
 	isVisible = visible;
 	viewPoint.setPose(1,5,1,0,0,0); //initializes view point
-	//modelGlm = 0; // set null pointers	
 }
 
 CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, bool visible)
 {
-	//glutIsInit = false; //this variable should be shared by all instances to this object
 	isVisible = visible; 
 	viewPoint.setPose(1,5,1,0,0,0); //initializes view point
-	//modelGlm = 0; // set null pointers	
 
 	//init window and GL state
 	setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
@@ -27,11 +23,6 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
 CsceneRender::~CsceneRender()
 {
 	glutDestroyWindow(winId);
-	
-//       if ( modelGlm != 0 )
-// 	{
-// 		glmDelete(modelGlm);
-// 	}
 }
 
 void CsceneRender::initWindow()
@@ -57,11 +48,6 @@ void CsceneRender::initGL()
 	glShadeModel(GL_FLAT);//GL_SMOOTH
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //renderizes both faces of polygons	
       glColor3f( .8, .8, .8);
-
-      //testing ...
-//       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//       glEnable(GL_BLEND);
-//       glEnable(GL_LINE_SMOOTH);
 
 	//sets projection and viewport
 	glMatrixMode(GL_PROJECTION);
@@ -278,7 +264,6 @@ void CsceneRender::recursiveAssimpRender (const struct aiScene *sc, const struct
 void CsceneRender::loadModel(const int modelID)
 {
       glutSetWindow(winId);
-      //modelList = glGenLists(1);
       glNewList(modelList, GL_COMPILE);
 
       switch(modelID)
@@ -334,131 +319,7 @@ void CsceneRender::loadModel(const int modelID)
                   gluSphere(gluNewQuadric(),2.0, 140,140);
                   //glTranslatef(-3.0,0.0,0.0);// comes back
                   break;
-
-            case FME_BIG_DOOR: //hard coded map of the "IRI big iron door"
-                  glColor3f(0.0,1.0,0.7);
-                  glBegin(GL_QUADS);//Draws the floor
-                        glNormal3f( 0.0,0.0, 1.0);
-                        glVertex3f(-1.0,23.0, 0.0);
-                        glVertex3f(-1.0,-1.0, 0.0);
-                        glVertex3f( 23.0,-1.0, 0.0);
-                        glVertex3f( 23.0, 23.0, 0.0);
-                  glEnd();
-
-                  glColor3f( 0.9, 0.3, 0.0); //draws a wall
-                  glBegin(GL_QUADS);
-                        glVertex3f(0.0,0.0,0.0);
-                        glVertex3f(0.0,20.0,0.0);
-                        glVertex3f(0.0,20.0,3.0);
-                        glVertex3f(0.0,0.0,3.0);
-                  glEnd();
-
-                  glColor3f( 1.0, 0.5, 0.0);
-                  glBegin(GL_QUADS); //the big door closed!
-                        glVertex3f(4.0,4.65,0.0);
-                        glVertex3f(4.0,4.65,3.0);
-                        glVertex3f(14.0,4.65,3.0);
-                        glVertex3f(14.0,4.65,0.0);
-                  glEnd();
-                  
-                  glColor3f( 1.0, 0.5, 0.0);
-                  glBegin(GL_QUAD_STRIP);
-                        glVertex3f(0.0,3.8,0.0);
-                        glVertex3f(0.0,3.8,3.0);
-                        glVertex3f(4.0,3.8,0.0);
-                        glVertex3f(4.0,3.8,3.0);
-                        glVertex3f(4.0,4.65,0.0);
-                        glVertex3f(4.0,4.65,3.0);
-                        glVertex3f(3.4,4.65,0.0);
-                        glVertex3f(3.4,4.65,3.0);
-                        glVertex3f(3.4,13.85,0.0);
-                        glVertex3f(3.4,13.85,3.0);
-                        glVertex3f(3.17,13.85,0.0);
-                        glVertex3f(3.17,13.85,3.0);
-                        glVertex3f(3.17,16.68,0.0);
-                        glVertex3f(3.17,16.68,3.0);
-                        glVertex3f(3.74,16.68,0.0);
-                        glVertex3f(3.74,16.68,3.0);
-                        glVertex3f(3.74,17.4,0.0);
-                        glVertex3f(3.74,17.4,3.0);
-                        glVertex3f(0.0,17.4,0.0);
-                        glVertex3f(0.0,17.4,3.0);
-                  glEnd();
-
-                  glBegin(GL_QUAD_STRIP); //stairs
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,21.3,0.0);
-                        glVertex3f(0.0,21.3,0.0);
-                        glVertex3f(18.0,21.3,0.2);
-                        glVertex3f(0.0,21.3,0.2);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,21.5,0.2);
-                        glVertex3f(0.0,21.5,0.2);
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,21.5,0.4);
-                        glVertex3f(0.0,21.5,0.4);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,21.7,0.4);
-                        glVertex3f(0.0,21.7,0.4);
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,21.7,0.6);
-                        glVertex3f(0.0,21.7,0.6);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,21.9,0.6);
-                        glVertex3f(0.0,21.9,0.6);
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,21.9,0.8);
-                        glVertex3f(0.0,21.9,0.8);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,22.1,0.8);
-                        glVertex3f(0.0,22.1,0.8);
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,22.1,1.0);
-                        glVertex3f(0.0,22.1,1.0);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,22.3,1.0);
-                        glVertex3f(0.0,22.3,1.0);
-                        glColor3f( 1.0,0.5,0.0);
-                        glVertex3f(18.0,22.3,1.2);
-                        glVertex3f(0.0,22.3,1.2);
-                        glColor3f( 1.0,0.7,0.0);
-                        glVertex3f(18.0,22.5,1.2);
-                        glVertex3f(0.0,22.5,1.2);     
-                  glEnd();
-
-                  glColor3f( 1.0, 0.5, 0.0);
-                  glBegin(GL_QUAD_STRIP);
-                        glVertex3f(18.0,17.4,0.0);
-                        glVertex3f(18.0,17.4,3.0);
-                        glVertex3f(14.0,17.4,0.0);
-                        glVertex3f(14.0,17.4,3.0);
-                        glVertex3f(14.0,16.68,0.0);
-                        glVertex3f(14.0,16.68,3.0);
-                        glVertex3f(14.57,16.68,0.0);
-                        glVertex3f(14.57,16.68,3.0);
-                        glVertex3f(14.57,13.85,0.0);
-                        glVertex3f(14.57,13.85,3.0);
-                        glVertex3f(14.34,13.85,0.0);
-                        glVertex3f(14.34,13.85,3.0);
-                        glVertex3f(14.34,4.65,0.0);
-                        glVertex3f(14.34,4.65,3.0);
-                        glVertex3f(13.74,4.65,0.0);
-                        glVertex3f(13.74,4.65,3.0);
-                        glVertex3f(13.74,3.8,0.0);
-                        glVertex3f(13.74,3.8,3.0);
-                        glVertex3f(18.0,3.8,0.0);
-                        glVertex3f(18.0,3.8,3.0);
-                  glEnd();
-
-                  //marks the orgin with a red stick
-                  glColor3f( 1.0, 0.0, 0.0);
-                  glDisable(GL_LINE_STIPPLE);
-                  glBegin(GL_LINES);
-                        glVertex3f(0.0,0.0,0.0);
-                        glVertex3f(0.0,0.0,2.0);
-                  glEnd();
-                  break; //break case
-                  
+                 
             default:
                   cout << "CsceneRender::loadModel(): Unknown modelID" << endl; 
                   break;
@@ -467,32 +328,3 @@ void CsceneRender::loadModel(const int modelID)
       glEndList();
       glFinish(); //finish all openGL work
 }
-
-/*
-int CsceneRender::loadModel(const string & modelFile, const string & edgesFile)
-{
-      glutSetWindow(winId);
-      glNewList(modelList, GL_COMPILE);
-
-      //polygonal model
-      modelGlm = glmReadOBJ(modelFile.data(), 0., 0., 0.);
-      if ( modelGlm == NULL )
-      {
-            //cout << " CsceneRender: " << __LINE__ << endl;
-            return -1;
-      }
-      glmDraw(modelGlm, GLM_COLOR);
-      
-      //edges
-      if (edgesFile.compare("") != 0) //edgesFile contains something
-      {
-            edges = glmReadOBJ(edgesFile.data(), 0., 0., 0.);
-            glColor3f( .0, .0, .0);
-            glLineWidth( 2.);
-            glmDraw(edges, GLM_COLOR);
-      }
-      
-      glEndList();
-      glFinish(); //finish all openGL work
-      return 1;
-}*/

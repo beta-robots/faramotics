@@ -77,6 +77,8 @@ KNOWN ISSUES
     - ROS updates its assimp usage to version 3.0 (this will be great!)
     - Assimp lib provide a Find*.cmake file to precisely locate the installed library and headers (this will be also great!)
     - FaRaMoTics finds some clever CMake configuration that fixes this situation (still thinking ...)
+    
+2) CsceneRender::fullScreen() does not work properly. This is a minor issue, just required for full screen visualization.
 
 REFERENCES
 [1]

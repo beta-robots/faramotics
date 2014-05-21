@@ -195,13 +195,6 @@ class CrangeScan2D
 		*/		
 		void loadModel(const int modelID);
             
-            /** \brief Loads 3D model by file
-            * 
-            * Loads the given 3D model to each sector
-            *
-            */          
-            //void loadModel(const string & modelFile);            
-		
 		/** \brief Computes a full 2D range scan.
 		* 
 		* Computes a full 2D range scan from position ss. Range results are output to scan vector.

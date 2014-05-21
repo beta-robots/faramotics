@@ -45,7 +45,6 @@ void CdynamicSceneRender::render()
 
 void CdynamicSceneRender::drawScan(Cpose3d devicePose, vector<float> scan, double aperture, double firstAngle)
 {
-	//GLuint dynamicObjectsList;
 	unsigned int ii;
 	Cpose3d scanPoint;
 	double delta;

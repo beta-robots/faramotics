@@ -89,15 +89,6 @@ void CrangeScan2D::loadModel(const int modelID)
 	}
 }
 
-// void CrangeScan2D::loadModel(const string & modelFile)
-// {
-//    unsigned int ii=0; 
-//    for(ii=0; ii<numSectors; ii++)//delete all sectors
-//    {
-//          sectors[ii]->loadModel(modelFile);
-//    }
-// }
-
 void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
 {
 	unsigned int ii=0;

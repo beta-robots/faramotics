@@ -14,22 +14,6 @@ INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
 # INCLUDE_DIRECTORIES(${Assimp_SOURCE_DIR}/include ${Assimp_SOURCE_DIR}/code)
 
-# GLM lib srcs
-# SET(GLM_SRCS
-# 	glm_src/glm.c
-# 	glm_src/glmimg.c
-# 	glm_src/glmimg_devil.c
-# 	glm_src/glmimg_jpg.c
-# 	glm_src/glmimg_sdl.c
-# 	glm_src/glmimg_sim.c
-# 	glm_src/glm_util.c
-# )
-
-# SET(GLM_HEADERS
-# 	glm_src/glm.h
-# 	glm_src/glmint.h
-# )
-
 #faramotics srcs
 SET(SRCS
 	sceneRender.cpp
@@ -39,6 +23,7 @@ SET(SRCS
 	rangeImage.cpp
 )
 
+#faramotics headers
 SET(HEADERS 
 	sceneRender.h
 	dynamicSceneRender.h
@@ -54,11 +39,10 @@ TARGET_LINK_LIBRARIES(faramotics ${Assimp_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_
 #install 
 INSTALL(TARGETS faramotics
         RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib/btr-libs
-        ARCHIVE DESTINATION lib/btr-libs)
+        LIBRARY DESTINATION lib/faramotics
+        ARCHIVE DESTINATION lib/faramotics)
 
-INSTALL(FILES ${HEADERS} DESTINATION include/btr-headers)
-# INSTALL(FILES ${GLM_HEADERS} DESTINATION include/btr-headers/glm_src)
+INSTALL(FILES ${HEADERS} DESTINATION include/faramotics)
 
 INSTALL(FILES ../Findfaramotics.cmake DESTINATION ${CMAKE_ROOT}/Modules/)
 

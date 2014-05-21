@@ -3,11 +3,8 @@
 ADD_EXECUTABLE(scanVisualization scanVisualizationMain.cpp)
 ADD_EXECUTABLE(timeTest timeTestMain.cpp)
 ADD_EXECUTABLE(assimpTest assimpTestMain.cpp)
-# ADD_EXECUTABLE(zGridBuilder  zGridBuilder.cpp)
-# ADD_EXECUTABLE(zGridChecker  zGridChecker.cpp)
+
 # TARGET_LINK_LIBRARIES(sceneRender faramotics)
 TARGET_LINK_LIBRARIES(scanVisualization faramotics)
 TARGET_LINK_LIBRARIES(timeTest faramotics)
 TARGET_LINK_LIBRARIES(assimpTest assimp)
-# TARGET_LINK_LIBRARIES(zGridBuilder faramotics)
-# TARGET_LINK_LIBRARIES(zGridChecker faramotics)
