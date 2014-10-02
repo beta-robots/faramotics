@@ -8,11 +8,12 @@
 #include "pose3d.h"
 
 //asimp 3d model import
-#include </usr/local/include/assimp/cimport.h>
-#include </usr/local/include/assimp/Importer.hpp> // C++ importer interface
-#include </usr/local/include/assimp/scene.h> // Output data structure
-#include </usr/local/include/assimp/postprocess.h> // Post processing flags
-#include </usr/local/include/assimp/version.h> //assimp version
+#include <assimp/cimport.h>
+#include <assimp/Importer.hpp> // C++ importer interface
+#include <assimp/scene.h> // Output data structure
+#include <assimp/postprocess.h> // Post processing flags
+#include <assimp/version.h> //assimp version
+
 
 using namespace std;
 
