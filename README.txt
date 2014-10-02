@@ -41,7 +41,7 @@ This release version has been completely updated specially in two senses:
 Moreover, some minor bugs have been fixed and the whole code has been reorganized.
 
 OPERATION SYSTEM
-Tested and developed under Ubuntu 12.04. Not tested under other OS.
+Tested and developed under Ubuntu 12.04 and Ubuntu 14.04. Not tested under other OS's.
 
 OPTIMAL HARDWARE
 Performant graphics card improves speed, since most of computations are direct calls to openGL
@@ -64,7 +64,10 @@ HOW TO INSTALL
  
 KNOWN ISSUES
 1) Assimp version conflict:
-  Some users (specially those using ROS) have already installed the assimp library in some 2.x version, which causes conflicts when compiling FaRaMoTics. This old version is usually installed at /usr/lib and headers at /usr/include. 
+
+  IMPORTANT UPDATE: ROS-Indigo Version has updated its dependency to assimp3.0! Great!! Forget this point 1) if you are user of ROS-Indigo.
+
+  Some users (specially those using ROS-Hydro) have already installed the assimp library in some 2.x version, which causes conflicts when compiling FaRaMoTics. This old version is usually installed at /usr/lib and headers at /usr/include. 
   Instead, when downloading and installing manually assimp3 lib version (assimp.sourceforge.net), installation of library is by default at /usr/local/lib and headers at /usr/local/include. 
    
   Current Solution: 
@@ -76,7 +79,7 @@ KNOWN ISSUES
   This situation could be fixed by one of the following actions:
     - ROS updates its assimp usage to version 3.0 (this will be great!)
     - Assimp lib provide a Find*.cmake file to precisely locate the installed library and headers (this will be also great!)
-    - FaRaMoTics finds some clever CMake configuration that fixes this situation (still thinking ...)
+    - FaRaMoTics finds some clever CMake configuration that fixes this situation (still thinking ...)    
     
 2) CsceneRender::fullScreen() does not work properly. This is a minor issue, just required for full screen visualization.
 
