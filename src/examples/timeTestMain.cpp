@@ -30,10 +30,10 @@ int main(int argc, char** argv)
 	myDepthCamera = new CrangeImage(KINECT);
 	
 	//load 3D models
-	//myLaserScanner->loadModel("../models/campusNordUPC.obj");
-      myLaserScanner->loadModel(SPHERE);
-	//myDepthCamera->loadModel("../models/campusNordUPC.obj");
-	myDepthCamera->loadModel(SPHERE);
+	//myLaserScanner->loadHardModel("../models/campusNordUPC.obj");
+      myLaserScanner->loadHardModel(SPHERE);
+	//myDepthCamera->loadHardModel("../models/campusNordUPC.obj");
+	myDepthCamera->loadHardModel(SPHERE);
       
 	//main loop 
 	for (int jj=0; jj<5; jj++)

@@ -75,7 +75,7 @@ class CsceneRender
 		 * 
 		*/		
 		bool isVisible;
-
+            
 		/** \brief Window width [pixels]
 		 * 
 		 * Window width [pixels]
@@ -175,7 +175,14 @@ class CsceneRender
              **/
             void recursiveAssimpRender (const struct aiScene *sc, const struct aiNode* nd);
 
-	public:
+	public:          
+            /** \brief screen Y offset
+             * 
+             * screen Y offset
+             * 
+             **/
+            static unsigned int yOffset; 
+          
 		/** \brief Default constructor
 		 *
 		 * Default constructor without parameters
@@ -273,6 +280,6 @@ class CsceneRender
 		 * Loads one of the hardcoded models identified with modelID
 		 *
 		*/										
-		virtual void loadModel(const int modelID);            
+		virtual void loadHardModel(const int modelID);            
 };
 #endif

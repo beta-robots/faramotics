@@ -1,5 +1,7 @@
 #include "sceneRender.h"
 
+unsigned int CsceneRender::yOffset = 100; //init offset
+
 CsceneRender::CsceneRender(bool visible)
 {
 	isVisible = visible;
@@ -29,7 +31,8 @@ void CsceneRender::initWindow()
 {
 	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize (widthP, heightP);
-	glutInitWindowPosition (100, 100);
+	glutInitWindowPosition (100, yOffset);
+      yOffset += 50;
 	glutCreateWindow("sceneRender");
 	winId = glutGetWindow();
 	if(!isVisible) glutHideWindow();
@@ -175,14 +178,14 @@ int CsceneRender::loadAssimpModel(const string & modelFile, const bool wireFrame
             glNewList(modelList, GL_COMPILE);      
             
             //Draw the model, only polygon faces, filled with orange
-            glColor4f(4.,2.8,0.2,1.);            
+            glColor3f(5.,5.,5.);            
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             this->recursiveAssimpRender(scene, scene->mRootNode);
             
             //if wireFrame, redraw the model but only the polygon line borders in black
             if (wireFrame) 
             {
-                  glColor4f(0.,0.,0.,1.);            
+                  glColor4f(0.,0.,0.,0.1);            
                   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                   this->recursiveAssimpRender(scene, scene->mRootNode);
             }
@@ -261,7 +264,7 @@ void CsceneRender::recursiveAssimpRender (const struct aiScene *sc, const struct
       glPopMatrix();
 }
 
-void CsceneRender::loadModel(const int modelID)
+void CsceneRender::loadHardModel(const int modelID)
 {
       glutSetWindow(winId);
       glNewList(modelList, GL_COMPILE);

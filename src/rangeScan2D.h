@@ -193,7 +193,7 @@ class CrangeScan2D
 		* Loads the indicated 3D model to each sector
 		*
 		*/		
-		void loadModel(const int modelID);
+		void loadHardModel(const int modelID);
             
 		/** \brief Computes a full 2D range scan.
 		* 

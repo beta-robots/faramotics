@@ -7,7 +7,7 @@
 #include "../src/dynamicSceneRender.h"
 #include "../src/rangeSector.h"
 #include "../src/rangeScan2D.h"
-//#include "../src/rangeImage.h"
+#include "../src/rangeImage.h"
 
 
 using namespace std;
@@ -16,9 +16,11 @@ int main(int argc, char** argv)
 {
 	CdynamicSceneRender *myRender;
 	CrangeScan2D *myScanner; 
+      CrangeImage *myDepthCamera;
 	Cpose3d viewPoint;
 	Cpose3d devicePose;
 	vector<float> myScan;
+      vector<float> myDepths;
 	string modelFileName;
 	unsigned int ii;
 	
@@ -34,14 +36,19 @@ int main(int argc, char** argv)
 	//create a viewer for the 3D model and scan points
 	myRender = new CdynamicSceneRender(1200,700,90*M_PI/180,90*700.0*M_PI/(1200.0*180.0),0.2,100);
       myRender->loadAssimpModel(modelFileName,true); //with wireframe
-//       myRender->loadModel(DEBUG_SCENE);
-      //myRender->loadModel(SPHERE);
+//       myRender->loadHardModel(DEBUG_SCENE);
+      //myRender->loadHardModel(SPHERE);
 	
 	//create scanner and load 3D model
 	myScanner = new CrangeScan2D(LEUZE_RS4);//or HOKUYO_UTM30LX_180DEG
 	myScanner->loadAssimpModel(modelFileName);
-      //myScanner->loadModel(DEBUG_SCENE);
-      //myScanner->loadModel(SPHERE);
+      //myScanner->loadHardModel(DEBUG_SCENE);
+      //myScanner->loadHardModel(SPHERE);
+      
+      //create depth camera and load 3D model
+      //myDepthCamera = new CrangeImage(KINECT);
+      myDepthCamera = new CrangeImage(SR4000);
+      myDepthCamera->loadAssimpModel(modelFileName);
 
       sleep(1);
 	for (ii=0; ii<1000; ii++)
@@ -69,7 +76,7 @@ int main(int argc, char** argv)
 		}
 		if ( (ii>170) && (ii<=220) )
 		{
-			devicePose.rt.setEuler( devicePose.rt.head()-1.8*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll() );
+			devicePose.rt.setEuler( devicePose.rt.head()-1.8*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll()-0.05*M_PI/180. );
 		}
 		if ( (ii>220) && (ii<=300) ) 
 		{
@@ -77,24 +84,30 @@ int main(int argc, char** argv)
 		}
 		if ( (ii>300) && (ii<=500) ) 
 		{
-			devicePose.rt.setEuler( devicePose.rt.head()-1.*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll() );
+			devicePose.rt.setEuler( devicePose.rt.head()-1.*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll()+0.1*M_PI/180. );
 			devicePose.moveForward(0.1);
 		}
 		if ( (ii>500) && (ii<=1000) ) 
 		{
-			devicePose.rt.setEuler( devicePose.rt.head()+1.*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll() );
+			devicePose.rt.setEuler( devicePose.rt.head()+1.*M_PI/180., devicePose.rt.pitch(), devicePose.rt.roll()-0.03*M_PI/180. );
 			devicePose.moveForward(0.);
 		}
 		
 		//compute scan
 		myScan.clear();
 		myScanner->computeScan(devicePose,myScan);
+            
+            //compute depth image
+            myDepths.clear();
+            myDepthCamera->depthImage(devicePose,myDepths);
 
-		//draws the scene and the scan
- 		myRender->drawScan(devicePose,myScan,190.0*M_PI/180.0,95.0*M_PI/180.0); //draw scan with leuze aperture params
-		myRender->drawPoseAxis(devicePose);
-		
-            //locate view point
+		//draws the scene, scan hits and depths
+            myRender->drawPoseAxis(devicePose);
+ 		myRender->drawScan(devicePose,myScan,190.*M_PI/180.,95.*M_PI/180.); //draw scan with leuze aperture params
+            //myRender->drawDepthPoints(devicePose, myDepths, 640, 480, 57.*M_PI/180., 43.*M_PI/180., (57./2.)*M_PI/180., (43./2.)*M_PI/180.);
+            myRender->drawDepthPoints(devicePose, myDepths, 176, 144, 43.6*M_PI/180., 34.6*M_PI/180., (43.6/2.)*M_PI/180., (34.6/2.)*M_PI/180.);
+            		
+            //locate visualization view point, somewhere behind the device
  		viewPoint.setPose(devicePose);
  		viewPoint.rt.setEuler( viewPoint.rt.head(), viewPoint.rt.pitch()+20.*M_PI/180., viewPoint.rt.roll() );
  		viewPoint.moveForward(-7);

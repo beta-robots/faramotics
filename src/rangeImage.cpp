@@ -1,6 +1,6 @@
 #include "rangeImage.h"
 
-CrangeImage::CrangeImage(unsigned int numPH, unsigned int numPV, float apertH, float apertV, float angularAccH, float angularAccV, float rmin, float rmax) : CsceneRender()
+CrangeImage::CrangeImage(unsigned int numPH, unsigned int numPV, float apertH, float apertV, float angularAccH, float angularAccV, float rmin, float rmax) : CsceneRender(true)
 {
 	rangeImageInit(numPH, numPV, apertH, apertV, angularAccH, angularAccV, rmin, rmax);
 }
@@ -10,10 +10,12 @@ CrangeImage::CrangeImage(unsigned int deviceId)
 	switch (deviceId)
 	{
 		case SR4000:
-			rangeImageInit(176,144,43.6*M_PI/180.0, 34.6*M_PI/180.0,0.25*M_PI/180.0,0.24*M_PI/180.0,0.3,5);
+			rangeImageInit(176,144,43.6*M_PI/180., 34.6*M_PI/180.,0.25*M_PI/180.,0.24*M_PI/180.,0.3,5.);
+                  cout << "CrangeImage::CrangeImage(): SR4000 device created" << endl;
 			break;
 		case KINECT:
-			rangeImageInit(640,480,57*M_PI/180.0, 43*M_PI/180.0,(57.0/640)*(M_PI/180.0),(43.0/640)*(M_PI/180.0),0.7,6);
+			rangeImageInit(640,480,57.*M_PI/180., 43.*M_PI/180.,(57./640.)*(M_PI/180.),(43./640.)*(M_PI/180.),0.7,5.);
+                  cout << "CrangeImage::CrangeImage(): KINECT device created" << endl;
 			break;
 		default: 
 			cout << "ERROR: CrangeImage::CrangeImage(): Unknown Device to compute rangeImages" << endl;
@@ -48,7 +50,7 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	//inits window and GL state
 	initWindow();
 	initGL();
-	this->hide();
+	//this->hide();
 	
 	//precomputes vectors
 	for (ii=0;ii<numPointsH;ii++) //precomputes vectors (horizontal)

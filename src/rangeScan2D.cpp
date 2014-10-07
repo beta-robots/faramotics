@@ -80,12 +80,12 @@ void CrangeScan2D::loadAssimpModel(const string & modelFile)
       }
 }
 
-void CrangeScan2D::loadModel(const int modelID)
+void CrangeScan2D::loadHardModel(const int modelID)
 {
 	unsigned int ii=0; 
 	for(ii=0; ii<numSectors; ii++)//delete all sectors
 	{
-		sectors[ii]->loadModel(modelID);
+		sectors[ii]->loadHardModel(modelID);
 	}
 }
 

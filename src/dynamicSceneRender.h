@@ -25,7 +25,7 @@ class CdynamicSceneRender : public CsceneRender
 		 * GL model lists containing dynamic objects
 		 *
 		*/
-		GLuint scanHitsList, frameList;
+		GLuint frameList, scanHitsList, depthPointsList;
 
 
 	public:
@@ -52,20 +52,27 @@ class CdynamicSceneRender : public CsceneRender
 		 *
 		*/										
 		virtual void render();
+            
+            /** \brief draws a frame
+             *
+             * Draws a classic RGB (XYZ) frame at position indicated by framePose
+             *
+            */
+            void drawPoseAxis(Cpose3d & axis);            
 		
 		/** \brief draws scan points
 		 *
 		 * Draws scan points
 		 *
 		*/
-		void drawScan(Cpose3d devicePose, vector<float> scan, double aperture, double firstAngle);
-		
-		/** \brief draws a frame
-		 *
-		 * Draws a classic RGB (XYZ) frame at position indicated by framePose
-		 *
-		*/
-		void drawPoseAxis(Cpose3d & axis);
-		
+		void drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle);
+
+            /** \brief draws depth image
+             *
+             * Draws depth image
+             *
+            */
+            void drawDepthPoints(Cpose3d & devicePose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
+            
 };
 #endif
