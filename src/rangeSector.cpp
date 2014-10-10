@@ -1,6 +1,7 @@
 #include "rangeSector.h"
 
-CrangeSector::CrangeSector(unsigned int numP, float apert, float angularAcc, float rmin, float rmax) : CsceneRender(true)
+CrangeSector::CrangeSector(unsigned int numP, float apert, float angularAcc, float rmin, float rmax) : 
+            CsceneRender(true)
 {
 	unsigned int ii;
 	float ai, wi;

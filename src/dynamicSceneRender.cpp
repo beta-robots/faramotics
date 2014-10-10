@@ -1,6 +1,7 @@
 #include "dynamicSceneRender.h"
 
-CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ) : CsceneRender(ww,hh,hAp,vAp,nearZ,farZ)
+CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ) :
+            CsceneRender(ww,hh,hAp,vAp,nearZ,farZ)
 {
       //init sensor frame and scan hits lists
       frameList = glGenLists(1);

@@ -16,20 +16,22 @@ INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
 
 #faramotics srcs
 SET(SRCS
-	sceneRender.cpp
-	dynamicSceneRender.cpp
-      rangeSector.cpp
-      rangeScan2D.cpp      
-	rangeImage.cpp
+    window.cpp
+    sceneRender.cpp
+    dynamicSceneRender.cpp
+    rangeSector.cpp
+    rangeScan2D.cpp      
+    rangeImage.cpp
 )
 
 #faramotics headers
 SET(HEADERS 
-	sceneRender.h
-	dynamicSceneRender.h
-      rangeSector.h
-      rangeScan2D.h      
-	rangeImage.h
+    window.h
+    sceneRender.h
+    dynamicSceneRender.h
+    rangeSector.h
+    rangeScan2D.h      
+    rangeImage.h
 )
 
 # create the shared library

@@ -7,6 +7,9 @@
 //pose3d geometry
 #include "pose3d.h"
 
+//faramotics 
+#include "window.h"
+
 //asimp 3d model import
 #include <assimp/cimport.h>
 #include <assimp/Importer.hpp> // C++ importer interface
@@ -53,42 +56,43 @@ enum hardCodedModels {DEBUG_SCENE = 1, SPHERE, FME_BIG_DOOR};
  * \brief GLUT window to render a 3D model
  *
  * CsceneRender implements a GLUT window where a 3D model can be renderized from a "viewPoint" point of view.
- * Window size, aspect ratio and rendering volume can be all configured through constructor or through a setRenderParameters() function.
+ * THis class inherits from Window.
+ * Aspect ratio and rendering volume can be all configured through constructor or through a setRenderParameters() function.
  * View point, referenced to the model origin, can be set as:
- *	- a Cposition3d object (libposition_3d), or
+ *	- a Cpose3d object (libpose_state_time), or
  * 	- six parameters of a 3d position: (x,y,z,heading,pitch,roll), being the three angles the euler angles following the ZYX convention
  * The 3D model can be load passing a filename of a .obj file or inicating the ID of one of the hand-coded openGL models
 */
-class CsceneRender
+class CsceneRender : public Window
 {
 	protected:
-		/** \brief Window identifier
-		 * 
-		 * Window identifier for multiple window application cases
-		 * 
-		*/
-		int winId;
-		
-		/** \brief Visibility boolean
-		 * 
-		 * Set to true indicates that the window should be visible, false indicates a hidden window
-		 * 
-		*/		
-		bool isVisible;
-            
-		/** \brief Window width [pixels]
-		 * 
-		 * Window width [pixels]
-		 * 
-		*/		
-		unsigned int widthP;
-
-		/** \brief Window height [pixels]
-		 * 
-		 * Window height [pixels]
-		 * 
-		*/				
-		unsigned int heightP;
+// 		/** \brief Window identifier
+// 		 * 
+// 		 * Window identifier for multiple window application cases
+// 		 * 
+// 		*/
+// 		int winId;
+// 		
+// 		/** \brief Visibility boolean
+// 		 * 
+// 		 * Set to true indicates that the window should be visible, false indicates a hidden window
+// 		 * 
+// 		*/		
+// 		bool isVisible;
+//             
+// 		/** \brief Window width [pixels]
+// 		 * 
+// 		 * Window width [pixels]
+// 		 * 
+// 		*/		
+// 		unsigned int widthP;
+// 
+// 		/** \brief Window height [pixels]
+// 		 * 
+// 		 * Window height [pixels]
+// 		 * 
+// 		*/				
+// 		unsigned int heightP;
 		
 		/** \brief Window metric width [meters]
 		 * 
@@ -154,16 +158,16 @@ class CsceneRender
             Assimp::Importer importer;
             
       protected:
-		/** \brief Initializes GLUT window
-		 *
-		 * Glut window required initializations
-		 *
-		*/						
-		void initWindow();
+// 		/** \brief Initializes GLUT window
+// 		 *
+// 		 * Glut window required initializations
+// 		 *
+// 		*/						
+// 		void initWindow();
 		
 		/** \brief Initializes GL
 		 *
-		 * GL required initializations
+		 * GL required initializations for rendering
 		 *
 		*/								
 		void initGL();
@@ -176,12 +180,12 @@ class CsceneRender
             void recursiveAssimpRender (const struct aiScene *sc, const struct aiNode* nd);
 
 	public:          
-            /** \brief screen Y offset
-             * 
-             * screen Y offset
-             * 
-             **/
-            static unsigned int yOffset; 
+//             /** \brief screen Y offset
+//              * 
+//              * screen Y offset
+//              * 
+//              **/
+//             static unsigned int yOffset; 
           
 		/** \brief Default constructor
 		 *
@@ -204,26 +208,26 @@ class CsceneRender
 		*/										
 		~CsceneRender();
 
-		/** \brief Shows this window & renders
-		 *
-		 * Shows this window and renders the model from the viewPoint 
-		 *
-		*/										
-		void show();
-				
-		/** \brief Hides this window
-		 *
-		 * Hides this window
-		 *
-		*/										
-		void hide();
-		
-		/** \brief Sets window to full screen. (Doesn't work properly !!!)
-		 *
-		 * Sets size of the rendering window to full screen 
-		 *
-		*/										
-		void fullScreen();
+// 		/** \brief Shows this window & renders
+// 		 *
+// 		 * Shows this window and renders the model from the viewPoint 
+// 		 *
+// 		*/										
+// 		void show();
+// 				
+// 		/** \brief Hides this window
+// 		 *
+// 		 * Hides this window
+// 		 *
+// 		*/										
+// 		void hide();
+// 		
+// 		/** \brief Sets window to full screen. (Doesn't work properly !!!)
+// 		 *
+// 		 * Sets size of the rendering window to full screen 
+// 		 *
+// 		*/										
+// 		void fullScreen();
 		
 		/** \brief Sets rendering parameters 
 		 *

@@ -1,16 +1,18 @@
 #include "sceneRender.h"
 
-unsigned int CsceneRender::yOffset = 100; //init offset
+//unsigned int CsceneRender::yOffset = 100; //init offset
 
-CsceneRender::CsceneRender(bool visible)
+CsceneRender::CsceneRender(bool visible) : 
+            Window(visible)
 {
-	isVisible = visible;
+	//isVisible = visible;
 	viewPoint.setPose(1,5,1,0,0,0); //initializes view point
 }
 
-CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, bool visible)
+CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, bool visible) :
+            Window(visible)
 {
-	isVisible = visible; 
+// 	isVisible = visible; 
 	viewPoint.setPose(1,5,1,0,0,0); //initializes view point
 
 	//init window and GL state
@@ -27,16 +29,16 @@ CsceneRender::~CsceneRender()
 	glutDestroyWindow(winId);
 }
 
-void CsceneRender::initWindow()
-{
-	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize (widthP, heightP);
-	glutInitWindowPosition (100, yOffset);
-      yOffset += 50;
-	glutCreateWindow("sceneRender");
-	winId = glutGetWindow();
-	if(!isVisible) glutHideWindow();
-}
+// void CsceneRender::initWindow()
+// {
+// 	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+// 	glutInitWindowSize (widthP, heightP);
+// 	glutInitWindowPosition (100, yOffset);
+//       yOffset += 50;
+// 	glutCreateWindow("sceneRender");
+// 	winId = glutGetWindow();
+// 	if(!isVisible) glutHideWindow();
+// }
 
 void CsceneRender::initGL()
 {
@@ -60,37 +62,37 @@ void CsceneRender::initGL()
 	glFinish();
 }
 
-void CsceneRender::show()
-{
-	isVisible = true;
-	glutSetWindow(winId);
-	glutShowWindow();	
-	render();
-}
+// void CsceneRender::show()
+// {
+// 	isVisible = true;
+// 	glutSetWindow(winId);
+// 	glutShowWindow();	
+// 	render();
+// }
 
-void CsceneRender::hide()
-{
-	isVisible = false;
-	glutSetWindow(winId);
-	glutHideWindow();
-}
-
-void CsceneRender::fullScreen()
-{
-	//to do: code below doesn't work properly. why??
-	glutSetWindow(winId);
-	
-	widthP = glutGet(GLUT_SCREEN_WIDTH);
-	heightP = glutGet(GLUT_SCREEN_HEIGHT);
-	cout << "sW = " << widthP << "; sH = " << heightP << endl; 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(vAperture*180.0/M_PI, widthM/heightM, zNear, zFar);
-	glViewport(0, 0, widthP, heightP);
-	
-	glFinish();
-	glutFullScreen();
-}
+// void CsceneRender::hide()
+// {
+// 	isVisible = false;
+// 	glutSetWindow(winId);
+// 	glutHideWindow();
+// }
+// 
+// void CsceneRender::fullScreen()
+// {
+// 	//to do: code below doesn't work properly. why??
+// 	glutSetWindow(winId);
+// 	
+// 	widthP = glutGet(GLUT_SCREEN_WIDTH);
+// 	heightP = glutGet(GLUT_SCREEN_HEIGHT);
+// 	cout << "sW = " << widthP << "; sH = " << heightP << endl; 
+// 	glMatrixMode(GL_PROJECTION);
+// 	glLoadIdentity();
+// 	gluPerspective(vAperture*180.0/M_PI, widthM/heightM, zNear, zFar);
+// 	glViewport(0, 0, widthP, heightP);
+// 	
+// 	glFinish();
+// 	glutFullScreen();
+// }
 
 void CsceneRender::setRenderParameters(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ)
 {
