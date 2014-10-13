@@ -18,61 +18,57 @@
 */
 class CdynamicSceneRender : public CsceneRender
 {
-	protected:
-		/**
-		 * \brief GL model list
-		 *
-		 * GL model lists containing dynamic objects
-		 *
-		*/
-		GLuint frameList, scanHitsList, depthPointsList;
+    protected:
+        /** \brief GL model list
+        *
+        * GL model lists containing dynamic objects
+        *
+        */
+        GLuint frameList, scanHitsList, depthPointsList;
 
-
-	public:
-		/**
-		 * \brief Parameter constructor
-		 *
-		 * Parameter constructor with rendering parameters
-		 *
-		*/										
-		CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ);
+    public:
+        /** \brief Parameter constructor
+        * 
+        *
+        * Parameter constructor with rendering parameters
+        *
+        */										
+        CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ);
 		
-		/**
-		 * \brief Default destructor
-		 *
-		 * Default destructor
-		 *
-		*/										
-		~CdynamicSceneRender();
+        /** \brief Default destructor
+        *
+        * Default destructor
+        *
+        */										
+        ~CdynamicSceneRender();
 		
-		/**
-		 * \brief Renders the model from the viewPoint
-		 *
-		 * Renders the model from the viewPoint
-		 *
-		*/										
-		virtual void render();
+        /** \brief Renders the model from the viewPoint
+        * 
+        *
+        * Renders the model from the viewPoint
+        *
+        */										
+        virtual void render();
             
-            /** \brief draws a frame
-             *
-             * Draws a classic RGB (XYZ) frame at position indicated by framePose
-             *
-            */
-            void drawPoseAxis(Cpose3d & axis);            
+        /** \brief draws a frame
+        *
+        * Draws a classic RGB (XYZ) frame at position indicated by framePose
+        *
+        */
+        void drawPoseAxis(Cpose3d & axis);            
 		
-		/** \brief draws scan points
-		 *
-		 * Draws scan points
-		 *
-		*/
-		void drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle);
+        /** \brief draws scan points
+        *
+        * Draws scan points
+        *
+        */
+        void drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle);
 
-            /** \brief draws depth image
-             *
-             * Draws depth image
-             *
-            */
-            void drawDepthPoints(Cpose3d & devicePose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
-            
+        /** \brief draws depth image
+        *
+        * Draws depth image
+        *
+        */
+        void drawDepthPoints(Cpose3d & devicePose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
 };
 #endif

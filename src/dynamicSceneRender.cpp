@@ -3,7 +3,7 @@
 CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ) :
             CsceneRender(ww,hh,hAp,vAp,nearZ,farZ)
 {
-      //init sensor frame and scan hits lists
+      //init GL lists
       frameList = glGenLists(1);
       scanHitsList = glGenLists(1);
       depthPointsList = glGenLists(1);
@@ -11,7 +11,7 @@ CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float
 
 CdynamicSceneRender::~CdynamicSceneRender()
 {
-
+    //nothing to do
 }
 
 void CdynamicSceneRender::render()

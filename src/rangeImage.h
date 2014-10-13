@@ -2,17 +2,12 @@
 #ifndef rangeImage_H
 #define rangeImage_H
 
-//include
-#include "sceneRender.h"
+//include std
 #include <vector>
 
-/**
-* \brief Known devices id's
-* 
-* Known devices id's
-*
-*/
-enum knownDepthCameraDevices {SR4000 = 1, KINECT, TOF_X};
+//include faramotics
+#include "sceneRender.h"
+#include "deviceConsts.h"
 
 /**
 * \brief CrangeImage class 
@@ -33,8 +28,6 @@ enum knownDepthCameraDevices {SR4000 = 1, KINECT, TOF_X};
 class CrangeImage : public CsceneRender
 {
 	protected:
-		//sector parameters
-		
 		/**
 		* \brief Horizontal number of points
 		* 
@@ -124,8 +117,22 @@ class CrangeImage : public CsceneRender
 		*
 		*/		
 		~CrangeImage();
+            
+            /** \brief Returns num horizontal points 
+             * 
+             * Returns num horizontal points 
+             * 
+             **/
+            unsigned int getNumHorizontalPoints() const;
 
-		/**
+            /** \brief Returns num vertical points 
+             * 
+             * Returns num vertical points 
+             * 
+             **/
+            unsigned int getNumVerticalPoints() const;
+
+            /**
 		* \brief Computes a full 3D depth image.
 		* 
 		* Computes a full 3D depth image from position ss. Range results are output to scan vector.

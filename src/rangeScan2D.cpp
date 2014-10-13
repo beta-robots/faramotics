@@ -8,28 +8,50 @@ CrangeScan2D::CrangeScan2D(unsigned int numSec, unsigned int nP, float apert, fl
 
 CrangeScan2D::CrangeScan2D(unsigned int deviceType, unsigned int devId)
 {
-	deviceId = devId;
-	switch (deviceType)
-	{
-		case LEUZE_RS4:
-			rangeScan2Dinit(2,133,190*M_PI/180.0, (190.0/133)*(M_PI/180.0),0.3,20);
-			break;
-		case HOKUYO_UTM30LX:
-			rangeScan2Dinit(3,1081,270*M_PI/180.0, (270.0/1081.0)*(M_PI/180.0),0.3,20);
-			break;
-		case HOKUYO_UTM30LX_180DEG:
-			rangeScan2Dinit(2,720,M_PI,(180.0/720.0)*(M_PI/180.0),0.3,20);
-			break;
-		case HOKUYO_UTM30LX_180DEG_SKIP1:
-			rangeScan2Dinit(2,360,M_PI,(180.0/360.0)*(M_PI/180.0),0.3,20);
-			break;
-		case HOKUYO_UTM30LX_180DEG_SKIP2:
-			rangeScan2Dinit(2,240,M_PI,(180.0/240.0)*(M_PI/180.0),0.3,20);
-			break;
-		default: 
-			cout << "ERROR: CrangeScan2D::CrangeScan2D(): Unknown Device to compute rangeScan2D" << endl;
-			break; 
-	}
+    deviceId = devId;
+    switch (deviceType)
+    {
+        case LEUZE_RS4:
+            rangeScan2Dinit(LEUZE_RS4_SECTORS ,
+                        LEUZE_RS4_NUM_POINTS,
+                        LEUZE_RS4_APERTURE, 
+                        LEUZE_RS4_APERTURE/(double)LEUZE_RS4_NUM_POINTS, 
+                        LEUZE_RS4_RANGE_MIN, 
+                        LEUZE_RS4_RANGE_MAX);
+            break;
+            
+        case HOKUYO_UTM30LX:
+            rangeScan2Dinit(HOKUYO_UTM30LX_SECTORS ,
+                        HOKUYO_UTM30LX_NUM_POINTS,
+                        HOKUYO_UTM30LX_APERTURE, 
+                        HOKUYO_UTM30LX_APERTURE/(double)HOKUYO_UTM30LX_NUM_POINTS, 
+                        HOKUYO_UTM30LX_RANGE_MIN, 
+                        HOKUYO_UTM30LX_RANGE_MAX);
+             break;
+             
+        case HOKUYO_UTM30LX_180DEG:
+            rangeScan2Dinit(HOKUYO_UTM30LX_180DEG_SECTORS ,
+                        HOKUYO_UTM30LX_180DEG_NUM_POINTS,
+                        HOKUYO_UTM30LX_180DEG_APERTURE, 
+                        HOKUYO_UTM30LX_180DEG_APERTURE/(double)HOKUYO_UTM30LX_180DEG_NUM_POINTS, 
+                        HOKUYO_UTM30LX_RANGE_MIN, 
+                        HOKUYO_UTM30LX_RANGE_MAX);
+            break;
+            
+        case HOKUYO_UTM30LX_180DEG_SKIP2:
+            rangeScan2Dinit(HOKUYO_UTM30LX_180DEG_SECTORS ,
+                        HOKUYO_UTM30LX_180DEG_SKIP2_NUM_POINTS,
+                        HOKUYO_UTM30LX_180DEG_APERTURE, 
+                        HOKUYO_UTM30LX_180DEG_APERTURE/(double)HOKUYO_UTM30LX_180DEG_SKIP2_NUM_POINTS, 
+                        HOKUYO_UTM30LX_RANGE_MIN, 
+                        HOKUYO_UTM30LX_RANGE_MAX);
+
+            break;
+            
+        default: 
+            cout << "ERROR: CrangeScan2D::CrangeScan2D(): Unknown Device to compute rangeScan2D" << endl;
+            break; 
+    }
 }
 
 CrangeScan2D::~CrangeScan2D()

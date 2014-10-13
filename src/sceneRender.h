@@ -65,35 +65,7 @@ enum hardCodedModels {DEBUG_SCENE = 1, SPHERE, FME_BIG_DOOR};
 */
 class CsceneRender : public Window
 {
-	protected:
-// 		/** \brief Window identifier
-// 		 * 
-// 		 * Window identifier for multiple window application cases
-// 		 * 
-// 		*/
-// 		int winId;
-// 		
-// 		/** \brief Visibility boolean
-// 		 * 
-// 		 * Set to true indicates that the window should be visible, false indicates a hidden window
-// 		 * 
-// 		*/		
-// 		bool isVisible;
-//             
-// 		/** \brief Window width [pixels]
-// 		 * 
-// 		 * Window width [pixels]
-// 		 * 
-// 		*/		
-// 		unsigned int widthP;
-// 
-// 		/** \brief Window height [pixels]
-// 		 * 
-// 		 * Window height [pixels]
-// 		 * 
-// 		*/				
-// 		unsigned int heightP;
-		
+	protected:	
 		/** \brief Window metric width [meters]
 		 * 
 		 * Window width [meters]
@@ -158,13 +130,6 @@ class CsceneRender : public Window
             Assimp::Importer importer;
             
       protected:
-// 		/** \brief Initializes GLUT window
-// 		 *
-// 		 * Glut window required initializations
-// 		 *
-// 		*/						
-// 		void initWindow();
-		
 		/** \brief Initializes GL
 		 *
 		 * GL required initializations for rendering
@@ -180,13 +145,6 @@ class CsceneRender : public Window
             void recursiveAssimpRender (const struct aiScene *sc, const struct aiNode* nd);
 
 	public:          
-//             /** \brief screen Y offset
-//              * 
-//              * screen Y offset
-//              * 
-//              **/
-//             static unsigned int yOffset; 
-          
 		/** \brief Default constructor
 		 *
 		 * Default constructor without parameters
@@ -208,27 +166,6 @@ class CsceneRender : public Window
 		*/										
 		~CsceneRender();
 
-// 		/** \brief Shows this window & renders
-// 		 *
-// 		 * Shows this window and renders the model from the viewPoint 
-// 		 *
-// 		*/										
-// 		void show();
-// 				
-// 		/** \brief Hides this window
-// 		 *
-// 		 * Hides this window
-// 		 *
-// 		*/										
-// 		void hide();
-// 		
-// 		/** \brief Sets window to full screen. (Doesn't work properly !!!)
-// 		 *
-// 		 * Sets size of the rendering window to full screen 
-// 		 *
-// 		*/										
-// 		void fullScreen();
-		
 		/** \brief Sets rendering parameters 
 		 *
 		 * Sets rendering parameters:

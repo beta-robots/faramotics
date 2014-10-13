@@ -90,6 +90,20 @@ class Window
         */                                  
         ~Window();
         
+        /** \brief Returns width in pixels
+         * 
+         * Returns width in pixels
+         * 
+         **/
+        unsigned int getWidthPixels() const; 
+        
+        /** \brief Returns height in pixels
+         * 
+         * Returns height in pixels
+         * 
+         **/
+        unsigned int getHeightPixels() const; 
+        
         /** \brief Shows this window & renders
         *
         * Shows this window and renders the model from the viewPoint 

@@ -8,20 +8,28 @@ CrangeImage::CrangeImage(unsigned int numPH, unsigned int numPV, float apertH, f
 
 CrangeImage::CrangeImage(unsigned int deviceId)
 {
-	switch (deviceId)
-	{
-		case SR4000:
-			rangeImageInit(176,144,43.6*M_PI/180., 34.6*M_PI/180.,0.25*M_PI/180.,0.24*M_PI/180.,0.3,5.);
-                  cout << "CrangeImage::CrangeImage(): SR4000 device created" << endl;
-			break;
-		case KINECT:
-			rangeImageInit(640,480,57.*M_PI/180., 43.*M_PI/180.,(57./640.)*(M_PI/180.),(43./640.)*(M_PI/180.),0.7,5.);
-                  cout << "CrangeImage::CrangeImage(): KINECT device created" << endl;
-			break;
-		default: 
-			cout << "ERROR: CrangeImage::CrangeImage(): Unknown Device to compute rangeImages" << endl;
-			break; 
-	}
+    switch (deviceId)
+    {
+        case SR4000:
+            rangeImageInit( SR4000_NUM_POINTS_HORIZONTAL, SR4000_NUM_POINTS_VERTICAL, 
+                            SR4000_APERTURE_HORIZONTAL, SR4000_APERTURE_VERTICAL, 
+                            SR4000_ANGULAR_ACCURACY_HORIZONTAL, SR4000_ANGULAR_ACCURACY_VERTICAL, 
+                            SR4000_MIN_RANGE, SR4000_MAX_RANGE);                    
+            cout << "CrangeImage::CrangeImage(): SR4000 device created" << endl;
+            break;
+            
+        case KINECT:
+            rangeImageInit( KINECT_NUM_POINTS_HORIZONTAL, KINECT_NUM_POINTS_VERTICAL, 
+                            KINECT_APERTURE_HORIZONTAL, KINECT_APERTURE_VERTICAL, 
+                            KINECT_ANGULAR_ACCURACY_HORIZONTAL, KINECT_ANGULAR_ACCURACY_VERTICAL, 
+                            KINECT_MIN_RANGE, KINECT_MAX_RANGE);                    
+            cout << "CrangeImage::CrangeImage(): KINECT device created" << endl;
+            break;
+            
+        default: 
+            cout << "ERROR: CrangeImage::CrangeImage(): Unknown Device to compute rangeImages" << endl;
+            break; 
+    }
 }
 
 CrangeImage::~CrangeImage()
@@ -66,6 +74,16 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 		wi=zNear*tan(ai);//distance from the hit point i to the x sensor axis
 		kV.push_back( (int) ((0.5 - wi/heightM)*heightP) );//pixel index associated to ray i
 	}
+}
+
+unsigned int CrangeImage::getNumHorizontalPoints() const
+{
+    return numPointsH;
+}
+
+unsigned int CrangeImage::getNumVerticalPoints() const
+{
+    return numPointsV;
 }
 
 void CrangeImage::depthImage(Cpose3d & ss, vector<float> & depthImg)

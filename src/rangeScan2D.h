@@ -2,24 +2,9 @@
 #ifndef rangeScan2D_H
 #define rangeScan2D_H
 
-//include
+//include faramotics
 #include "rangeSector.h"
-
-/**
-* \brief Maximum allowed sectors
-* 
-* Maximum allowed sectors
-*
-*/
-static const unsigned int MAX_SECTORS=6;
-
-/**
-* \brief Known devices id's
-* 
-* Known devices id's
-*
-*/
-enum knownScannerDevices {LEUZE_RS4 = 1, HOKUYO_UTM30LX, HOKUYO_UTM30LX_180DEG, HOKUYO_UTM30LX_180DEG_SKIP1, HOKUYO_UTM30LX_180DEG_SKIP2, HOKUYO_URGX, SICK};
+#include "deviceConsts.h"
 
 /**
 * \brief CrangeScan2D class
@@ -88,8 +73,6 @@ class CrangeScan2D
 		*/
 		float rangeMax;
 		
-		//sectorization
-				
 		/**
 		* \brief Number of sectors
 		* 

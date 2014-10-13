@@ -26,6 +26,16 @@ Window::~Window()
     glutDestroyWindow(winId);
 }
 
+unsigned int Window::getWidthPixels() const
+{
+    return widthP;
+}
+
+unsigned int Window::getHeightPixels() const
+{
+    return heightP;
+}
+
 void Window::initWindow()
 {
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);

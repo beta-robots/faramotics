@@ -32,6 +32,7 @@ SET(HEADERS
     rangeSector.h
     rangeScan2D.h      
     rangeImage.h
+    deviceConsts.h
 )
 
 # create the shared library
