@@ -133,7 +133,7 @@ int CsceneRender::loadAssimpModel(const string & modelFile, const bool wireFrame
         glNewList(modelList, GL_COMPILE);      
         
         //Draw the model, only polygon faces, filled with orange
-        glColor3f(5.,5.,5.);            
+        glColor3f(5.,3.,0.);            
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         this->recursiveAssimpRender(scene, scene->mRootNode);
         

@@ -57,7 +57,7 @@ const double KINECT_APERTURE_VERTICAL = 43.*M_PI/180.;
 const double KINECT_ANGULAR_ACCURACY_HORIZONTAL = (57./640.)*(M_PI/180.);
 const double KINECT_ANGULAR_ACCURACY_VERTICAL = (43./640.)*(M_PI/180.);
 const double KINECT_MIN_RANGE = 0.7; 
-const double KINECT_MAX_RANGE = 5.; 
+const double KINECT_MAX_RANGE = 6.; 
 
 
 #endif

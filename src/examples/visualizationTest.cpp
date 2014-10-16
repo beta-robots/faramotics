@@ -28,7 +28,7 @@ void motion(unsigned int ii, Cpose3d & pose)
     if ( (ii>80) && (ii<=120) )
     {
         pose.pt(0) = pose.pt(0) + 0.1;
-        pose.rt.setEuler(pose.rt.head(), pose.rt.pitch(), pose.rt.roll() - 0.01);
+        pose.rt.setEuler(pose.rt.head(), pose.rt.pitch(), pose.rt.roll() - 0.015);
     }
     if ( (ii>120) && (ii<=170) )
     {
@@ -39,20 +39,26 @@ void motion(unsigned int ii, Cpose3d & pose)
     {
         pose.rt.setEuler( pose.rt.head()-1.8*M_PI/180., pose.rt.pitch(), pose.rt.roll()-0.05*M_PI/180. );
     }
-    if ( (ii>220) && (ii<=300) ) 
+    if ( (ii>220) && (ii<=310) ) 
     {
         pose.pt(0) = pose.pt(0) + 0.1;
     }
-    if ( (ii>300) && (ii<=500) ) 
+    if ( (ii>310) && (ii<=487) ) 
     {
         pose.rt.setEuler( pose.rt.head()-1.*M_PI/180., pose.rt.pitch(), pose.rt.roll()+0.1*M_PI/180. );
         pose.moveForward(0.1);
     }
-    if ( (ii>500) && (ii<=1000) ) 
+    if ( (ii>487) && (ii<=582) ) 
     {
-        pose.rt.setEuler( pose.rt.head()+1.*M_PI/180., pose.rt.pitch(), pose.rt.roll()-0.03*M_PI/180. );
-        pose.moveForward(0.);
+        pose.moveForward(0.2);
     }
+    if ( (ii>582) && (ii<=700) ) 
+    {
+        pose.pt(2) = pose.pt(2) + 0.001;
+        pose.rt.setEuler( pose.rt.head()-1.*M_PI/180., pose.rt.pitch(), pose.rt.roll());
+        pose.moveForward(0.1);
+    }
+    
 }
 
 int main(int argc, char** argv)
@@ -82,7 +88,7 @@ int main(int argc, char** argv)
     //myRender->loadHardModel(SPHERE);
     
     //create scanner and load 3D model
-    myScanner = new CrangeScan2D(LEUZE_RS4);//or HOKUYO_UTM30LX_180DEG
+    myScanner = new CrangeScan2D(HOKUYO_UTM30LX_180DEG);//or LEUZE_RS4
     myScanner->loadAssimpModel(modelFileName);
     //myScanner->loadHardModel(DEBUG_SCENE);
     //myScanner->loadHardModel(SPHERE);
@@ -111,7 +117,7 @@ int main(int argc, char** argv)
 
         //draws the device frame, scan hits and depth image
         myRender->drawPoseAxis(devicePose);
-        myRender->drawScan(devicePose,myScan,190.*M_PI/180.,95.*M_PI/180.); //draw scan with leuze aperture params
+        myRender->drawScan(devicePose,myScan,180.*M_PI/180.,90.*M_PI/180.); //draw scan with leuze aperture params
         myDepthImage->drawDepths(&myDepths.at(0),0.7,5.);
                     
         //locate visualization view point, somewhere behind the device
@@ -124,7 +130,7 @@ int main(int argc, char** argv)
         myRender->render();
 
         //sleep to have time to see something
-        usleep(50000);
+        //usleep(20000);
     }
     
     //delete objects
