@@ -12,7 +12,7 @@ LICENSE
 The current license is BSD 
 
 OVERVIEW
-FaRaMoTics is a software library dedicated to fast computation of range measurement models in 3D environments. It is specially suited to compute expected range measurements in filtering or optimization applications where 2D/3D laser scanners or depth cameras are involved. It has ready to use functions to get these range data for the most popular devices such as:
+FaRaMoTics is a software library dedicated to fast computation of range measurement models in 3D environments. It is specially suited to compute expected range measurements in filtering or optimization applications where 2D/3D laser scanners or depth cameras are involved. It has ready-to-use functions to get expected range data for most of popular devices, such as:
       - Hokuyo UTM30LX
       - Hokuyo URGX
       - Leuze RS4
@@ -20,26 +20,18 @@ FaRaMoTics is a software library dedicated to fast computation of range measurem
       - SwissRange SR4000
 
 APPROACH
-The implementation renders 3D models, by means of OpenGL calls, viewed from the device position in optimally-sized windows, which allows fast rendering and depth retrieval. Optimal size of these windows is based on sensor parameters such as angular accuracy, angular aperture and min/max ranges. See [1] for further details.      
+The implementation renders 3D models, by means of OpenGL calls, viewed from the device position in optimally-sized windows, which allows fast rendering and depth retrieval. Optimal size of these windows is based on sensor specifications such as angular accuracy, angular aperture and min/max ranges. See [1] for further details.      
       
 INPUT DATA 
 To run FaRaMoTics, the required inputs are:
-- A 3D environment or object model, described in a format allowed by assimp lib (assimp.sourceforge.net/lib_html/index.html)
-- To create the range sensor, a 2D range scanner or 3D depth camera, it is required (2D scanners only require horizontal components):
+- A 3D environment or object model, described iby one of the formats allowed by assimp lib (assimp.sourceforge.net/lib_html/index.html)
+- To create the syntehtic range sensor it is required (2D scanners only require horizontal components):
       - angular apertures (horizontal and vertical) [degrees]
       - number of range points (horizontal and vertical) [#]
       - angular resolution (horizontal and vertical) [degrees]
       - Minimum and maximum range [meters]
+- A pose in 3D (6DoF), provided in run-time
       
-HISTORY
-The first version (not publicited) was developed at IRI (www.iri.upc.edu) by the same author, as a research library for real time map-based particle filter localization. This project [2] used "faramotics inside", where hundreds of thousdands rays per second where computed in the correction step of the particle filter in charge of estimating 3D localization. 
-
-RELEASE NOTE
-This release version has been completely updated specially in two senses: 
-      - Use of pose_state_time library for pose3d operations.
-      - Use of assimp library for 3d model import.
-Moreover, some minor bugs have been fixed and the whole code has been reorganized.
-
 OPERATION SYSTEM
 Tested and developed under Ubuntu 12.04 and Ubuntu 14.04. Not tested under other OS's.
 
@@ -49,8 +41,8 @@ Performant graphics card improves speed, since most of computations are direct c
 DEPENDENCIES
 The following packages/libraries are required to be installed on the system: 
       - g++, cmake (pkg)
-      - Mesa implementation of OpenGL2.1 specification (libgl1-mesa-dev pkg)
-      - freeglut (freeglut3-dev pkg)
+      - OPenGL: Mesa implementation of OpenGL2.1 specification (libgl1-mesa-dev pkg)
+      - GLUT: freeglut (freeglut3-dev pkg)
       - assimp3.0 (model importer, assimp.sourceforge.net)
       - dlib (algebra, header only, dlib.net)
       - pose_state_time library (github.com/beta-robots/btr-libs/wiki/pose_state_time)
@@ -65,23 +57,30 @@ HOW TO INSTALL
 KNOWN ISSUES
 1) Assimp version conflict:
 
-  IMPORTANT UPDATE: ROS-Indigo Version has updated its dependency to assimp3.0! Great!! Forget this point 1) if you are user of ROS-Indigo.
+  IMPORTANT UPDATE: ROS-Indigo Version has updated its dependency to assimp3.0! Great!! Forget this point 1) if you are using ROS-Indigo. Otherwise read it!
 
   Some users (specially those using ROS-Hydro) have already installed the assimp library in some 2.x version, which causes conflicts when compiling FaRaMoTics. This old version is usually installed at /usr/lib and headers at /usr/include. 
-  Instead, when downloading and installing manually assimp3 lib version (assimp.sourceforge.net), installation of library is by default at /usr/local/lib and headers at /usr/local/include. 
+  However, when downloading and installing manually assimp3 lib version (assimp.sourceforge.net), installation of library is by default at /usr/local/lib and headers at /usr/local/include. 
    
   Current Solution: 
-    To assure that FaRaMoTics is compiled and linked with version 3 of assimp library, include headers at file src/sceneRender.h related to assimp library contain the entire file name.
-    To assure correct linking to assimp version 3, the command: 
+    To assure that FaRaMoTics is compiled and linked with version 3 of assimp library, CMakeLists.txt includes the following line:
          FIND_LIBRARY(Assimp_LIBRARIES assimp HINTS /usr/local/lib NO_CMAKE_PATH NO_CMAKE_ENVIRONMENT_PATH) 
-    has been added to src/CMakeLists.txt. 
    
   This situation could be fixed by one of the following actions:
-    - ROS updates its assimp usage to version 3.0 (this will be great!)
+    - ROS updates its assimp usage to version 3.0 (this will be great!) -> DONE!
     - Assimp lib provide a Find*.cmake file to precisely locate the installed library and headers (this will be also great!)
     - FaRaMoTics finds some clever CMake configuration that fixes this situation (still thinking ...)    
     
-2) CsceneRender::fullScreen() does not work properly. This is a minor issue, just required for full screen visualization.
+2) Window::fullScreen() does not work properly. This is a minor issue, just required for full screen visualization.
+
+RELEASE NOTE
+This release version has been completely updated, specially in two features: 
+      - Use of pose_state_time library for pose3d operations.
+      - Use of assimp library for 3d model import.
+Moreover, some minor bugs have been fixed and the whole code has been reorganized.
+
+HISTORY
+The first version (not publicited) was developed at IRI (www.iri.upc.edu) by the same author, as a research library for real time map-based particle filter localization. This project [2] used "faramotics inside", where hundreds of thousdands rays per second where computed in the correction step of the particle filter in charge of computing 3D localization estimate. 
 
 REFERENCES
 [1]
