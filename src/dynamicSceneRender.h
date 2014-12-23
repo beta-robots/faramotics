@@ -33,7 +33,7 @@ class CdynamicSceneRender : public CsceneRender
         * Parameter constructor with rendering parameters
         *
         */										
-        CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ);
+        CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label = "faramotics");
 		
         /** \brief Default destructor
         *

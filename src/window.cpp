@@ -7,7 +7,7 @@ Window::Window(bool visible)
     isVisible = visible;
 }
 
-Window::Window(unsigned int ww, unsigned int hh, bool visible)
+Window::Window(unsigned int ww, unsigned int hh, bool visible, const std::string & label)
 {
     //window visibility
     isVisible = visible; 
@@ -17,7 +17,7 @@ Window::Window(unsigned int ww, unsigned int hh, bool visible)
     heightP = hh;
 
     //init window state
-    initWindow();
+    initWindow(label);
     initGL();
 }
 
@@ -36,13 +36,13 @@ unsigned int Window::getHeightPixels() const
     return heightP;
 }
 
-void Window::initWindow()
+void Window::initWindow(const std::string & label)
 {
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize (widthP, heightP);
     glutInitWindowPosition (100, yOffset);
     yOffset += 50;
-    glutCreateWindow("Window");
+    glutCreateWindow(label.c_str());
     winId = glutGetWindow();
     if(!isVisible) glutHideWindow();
 }

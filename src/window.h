@@ -3,6 +3,7 @@
 
 //std
 #include <iostream>
+#include <string>
 
 //GLUT
 #include <GL/glut.h>
@@ -59,7 +60,7 @@ class Window
         * Glut window required initializations
         *
         */                                  
-        void initWindow();
+        void initWindow(const std::string & label = "faramotics");
 
         /** \brief Initializes GL
         *
@@ -69,9 +70,9 @@ class Window
         void initGL();
         
     public:
-        /** \brief Constructor without arguments
+        /** \brief Constructor without sizes
         *
-        * Constructor without arguments
+        * Constructor without sizes
         *
         */                                  
         Window(bool visible=true);
@@ -81,7 +82,7 @@ class Window
         * Constructor. Requires width and height of the window in pixels
         *
         */                                          
-        Window(unsigned int ww, unsigned int hh, bool visible=true);
+        Window(unsigned int ww, unsigned int hh, bool visible=true, const std::string & label = "faramotics");
         
         /** \brief Destructor
         *

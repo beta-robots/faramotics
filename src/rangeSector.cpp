@@ -20,15 +20,15 @@ CrangeSector::CrangeSector(unsigned int numP, float apert, float angularAcc, flo
 	//printRenderParameters();
 	
 	//inits window and GL state
-	initWindow();
+	initWindow("Range Sector 2D");
 	initGL();
-      //this->hide();//To search: Some graphics cards avoid depth computations when window is hidden
+    //this->hide();//To search: Some graphics cards avoid depth computations when window is hidden
       
-      //avoid color computation , not necessary for depth 
-      glDisable(GL_COLOR_MATERIAL);
-      
-      //init model render lists
-      modelList = glGenLists(1);
+    //avoid color computation , not necessary for depth 
+    glDisable(GL_COLOR_MATERIAL);
+    
+    //init model render lists
+    modelList = glGenLists(1);
 
 	//precomputes vectors
 	for (ii=0;ii<numPointsH;ii++) //precomputes vectors (horizontal)

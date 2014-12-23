@@ -57,7 +57,7 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	//printRenderParameters();
 	
 	//inits window and GL state
-	initWindow();
+	initWindow("Range Image");
 	initGL();
 	//this->hide();
 	

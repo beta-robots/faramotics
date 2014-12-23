@@ -1,7 +1,7 @@
 #include "dynamicSceneRender.h"
 
-CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ) :
-            CsceneRender(ww,hh,hAp,vAp,nearZ,farZ)
+CdynamicSceneRender::CdynamicSceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label) :
+            CsceneRender(ww,hh,hAp,vAp,nearZ,farZ, label)
 {
       //init GL lists
       frameList = glGenLists(1);
@@ -51,30 +51,37 @@ void CdynamicSceneRender::drawPoseAxis(Cpose3d & axis)
 	//GLuint dynamicObjectsList;
 	double vv[6];
 
-      //gets pose as XYZ, fwd and left vectors
-      axis.getFwdLft(vv);      
+    //gets pose as XYZ, fwd and left vectors
+    axis.getFwdLft(vv);      
       
-      //set current window and reset matrix view
+    //set current window and reset matrix view
 	glutSetWindow(winId);	
-      glMatrixMode(GL_MODELVIEW);
-      glLoadIdentity();
-      
-      //set list
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+        
+    //set list
 	glNewList(frameList, GL_COMPILE);
-      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    //move axis origin
+    glTranslatef(axis.pt(0),axis.pt(1),axis.pt(2));// moves model origin
+    //glPushMatrix();
+    
 	//x axis
 	glColor3f(100.,0.,0.);
-	glTranslatef(axis.pt(0),axis.pt(1),axis.pt(2));// moves model origin
-	glRotated(90.0,vv[3],vv[4],vv[5]);
+	glRotated(90.0+axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+    //glPushMatrix();
 	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);
-	glRotated(90.0,vv[3],vv[4],vv[5]);
+	glRotated(-90.0-axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+    //glPopMatrix();
 	
 	//y axis
 	glColor3f(0.,100.,0.);
 	glRotated(-90.0,vv[0],vv[1],vv[2]);
+    //glPushMatrix();
 	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);	
-	glRotated(-90.0,vv[0],vv[1],vv[2]);
+	glRotated(90.0,vv[0],vv[1],vv[2]);
+    //glPopMatrix();
 	
 	//z axis
 	glColor3f(0.,0.,100.);

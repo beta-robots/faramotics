@@ -6,7 +6,7 @@ CsceneRender::CsceneRender(bool visible) :
     viewPoint.setPose(1,5,1,0,0,0); //initializes view point
 }
 
-CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, bool visible) :
+CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label, bool visible) :
             Window(visible)
 {
     //init view point
@@ -14,7 +14,7 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
 
     //init window and GL state
     setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
-    initWindow();
+    initWindow(label);
     initGL();
     
     //init model render lists

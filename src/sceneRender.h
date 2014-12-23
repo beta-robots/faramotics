@@ -157,7 +157,7 @@ class CsceneRender : public Window
 		 * Parameter constructor with rendering parameters
 		 *
 		*/										
-		CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, bool visible=true);
+		CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label, bool visible=true);
 		
 		/** \brief Default destructor
 		 *

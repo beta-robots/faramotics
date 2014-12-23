@@ -1,5 +1,4 @@
 
-
 #include <time.h>
 #include <sys/time.h>
 #include "../src/rangeScan2D.h"
@@ -23,15 +22,15 @@ int main(int argc, char** argv)
 	//glut initialization
 	glutInit(&argc, argv);
 	
-	//set devices
-	//myLaserScanner = new CrangeScan2D(LEUZE_RS4);
-      myLaserScanner = new CrangeScan2D(HOKUYO_UTM30LX);
+    //set devices
+    //myLaserScanner = new CrangeScan2D(LEUZE_RS4);
+    myLaserScanner = new CrangeScan2D(HOKUYO_UTM30LX);
 	//myDepthCamera = new CrangeImage(SR4000);
 	myDepthCamera = new CrangeImage(KINECT);
 	
 	//load 3D models
 	//myLaserScanner->loadHardModel("../models/campusNordUPC.obj");
-      myLaserScanner->loadHardModel(SPHERE);
+    myLaserScanner->loadHardModel(SPHERE);
 	//myDepthCamera->loadHardModel("../models/campusNordUPC.obj");
 	myDepthCamera->loadHardModel(SPHERE);
       
@@ -42,21 +41,21 @@ int main(int argc, char** argv)
 		dTimage = 0;
 		for (ii = 0 ; ii<nTrials; ii++)
 		{
-                  pose.setPose(1.0+ii*1e-2, 1.0-ii*1e-2, 1.0, 30, 0.0, 0.0, inDEGREES);//just to modify a little bit the view point
-                  myScan.clear(); //clear vector results
-                  myImage.clear(); //clear vector results
+            pose.setPose(1.0+ii*1e-2, 1.0-ii*1e-2, 1.0, 30, 0.0, 0.0, inDEGREES);//just to modify a little bit the view point
+            myScan.clear(); //clear vector results
+            myImage.clear(); //clear vector results
 
-                  //laser scan
-                  gettimeofday(&t1, NULL); 
-                  myLaserScanner->computeScan(pose,myScan);
-                  gettimeofday(&t2, NULL); 
-                  dTscan += (double) ( (t2.tv_sec + t2.tv_usec/1e6) - (t1.tv_sec + t1.tv_usec/1e6) );
-			
-                  //depth image
-                  gettimeofday(&t1, NULL); 
-                  myDepthCamera->depthImage(pose,myImage);
-                  gettimeofday(&t2, NULL); 
-                  dTimage += (double) ( (t2.tv_sec + t2.tv_usec/1e6) - (t1.tv_sec + t1.tv_usec/1e6) );				
+            //laser scan
+            gettimeofday(&t1, NULL); 
+            myLaserScanner->computeScan(pose,myScan);
+            gettimeofday(&t2, NULL); 
+            dTscan += (double) ( (t2.tv_sec + t2.tv_usec/1e6) - (t1.tv_sec + t1.tv_usec/1e6) );
+
+            //depth image
+            gettimeofday(&t1, NULL); 
+            myDepthCamera->depthImage(pose,myImage);
+            gettimeofday(&t2, NULL); 
+            dTimage += (double) ( (t2.tv_sec + t2.tv_usec/1e6) - (t1.tv_sec + t1.tv_usec/1e6) );				
 		}
 		
 		cout << "dTscan = " << (dTscan/nTrials)*1000 << " ms" << endl;
