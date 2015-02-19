@@ -1,8 +1,9 @@
 
-//C includes for sleep and time
+//C includes for sleep, time and main args
 #include "unistd.h"
 #include <time.h>
 #include <sys/time.h>
+#include <cstdlib>
 
 //faramotics includes
 #include "../src/window.h"
@@ -15,9 +16,9 @@
 //namespaces
 using namespace std;
 
-//const 
+//3D models. Eiffel Tower from http://3dmag.org/en/market/item/258/
 enum {CAMPUS = 1, EIFFEL_TOWER};
-const unsigned int environment_id = EIFFEL_TOWER;
+//const unsigned int environment_id = CAMPUS;
 
 //function to travel around each model
 void motionCampus(unsigned int ii, Cpose3d & pose)
@@ -147,6 +148,18 @@ int main(int argc, char** argv)
     timeval t1,t2;
     double dt;
     
+    if (argc != 3)
+    {
+        cout << "Invalid number of arguments!" << endl;
+        cout << "Call test as: visualizationTest environmentID printFlag" << endl;
+        cout << "      environmentID: 1->CAMPUS UPC ; 2->EIFFEL TOWER" << endl;
+        cout << "      printFlag: 0->Don't print scan values ; 1->Print scan values" << endl;
+        cout << "EXIT PROGRAM" << endl;
+        return -1;
+    }
+    unsigned int environment_id = atoi(argv[1]);
+    bool print_flag = (bool)atoi(argv[2]);
+    
     //user entries: model and initial view point
     switch(environment_id)
     {
@@ -159,7 +172,8 @@ int main(int argc, char** argv)
             devicePose.setPose(0,-50,0,90,0,0, inDEGREES);
             break;
         default:
-            cout << "Environment ID not found" << endl;
+            cout << "Unknown Environment ID" << endl;
+            cout << "EXIT PROGRAM" << endl;
             return -1;
             break;
     }
@@ -204,6 +218,14 @@ int main(int argc, char** argv)
         //compute scan
         myScan.clear();
         myScanner->computeScan(devicePose,myScan);
+        
+        //print scan
+        if ( print_flag == true )
+        {
+            cout << endl;
+            for (unsigned int jj = 0; jj < myScan.size(); jj++ ) cout << myScan[jj] << ",";
+            cout << endl << endl;
+        }
         
         //compute depth image
         myDepths.clear();
