@@ -40,7 +40,7 @@ class CdynamicSceneRender : public CsceneRender
         * Default destructor
         *
         */										
-        ~CdynamicSceneRender();
+        virtual ~CdynamicSceneRender();
 		
         /** \brief Renders the model from the viewPoint
         * 
