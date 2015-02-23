@@ -2,9 +2,11 @@
 #ifndef rangeSector_H
 #define rangeSector_H
 
-//include
-#include "sceneRender.h"
+//std
 #include <vector>
+
+//faramotics
+#include "sceneRender.h"
 
 /**
 * \brief Vertical aperture for 2D sectors

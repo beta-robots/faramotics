@@ -1,5 +1,5 @@
 # minimum cmake version
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 #required libs
 FIND_PACKAGE(pose_state_time REQUIRED)
@@ -12,7 +12,7 @@ INCLUDE_DIRECTORIES(.)
 INCLUDE_DIRECTORIES(${pose_state_time_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
-# INCLUDE_DIRECTORIES(${Assimp_SOURCE_DIR}/include ${Assimp_SOURCE_DIR}/code)
+INCLUDE_DIRECTORIES(${Assimp_SOURCE_DIR}/include ${Assimp_SOURCE_DIR}/code)
 
 #faramotics srcs
 SET(SRCS
@@ -37,8 +37,7 @@ SET(HEADERS
 
 # create the shared library
 ADD_LIBRARY(faramotics SHARED ${SRCS}) 
-TARGET_LINK_LIBRARIES(faramotics ${Assimp_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_glut_LIBRARY} ${pose_state_time_LIBRARIES})
-
+TARGET_LINK_LIBRARIES(faramotics PUBLIC ${Assimp_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_glut_LIBRARY} ${pose_state_time_LIBRARIES})
 #install 
 INSTALL(TARGETS faramotics
         RUNTIME DESTINATION bin

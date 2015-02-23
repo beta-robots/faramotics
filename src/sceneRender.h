@@ -1,15 +1,6 @@
 #ifndef sceneRender_H
 #define sceneRender_H
 
-//GLUT
-#include <GL/glut.h>
-
-//pose3d geometry
-#include "btr-headers/pose3d.h"
-
-//faramotics 
-#include "window.h"
-
 //asimp 3d model import
 #include <assimp/cimport.h>
 #include <assimp/Importer.hpp> // C++ importer interface
@@ -17,7 +8,13 @@
 #include <assimp/postprocess.h> // Post processing flags
 #include <assimp/version.h> //assimp version
 
+//pose3d geometry
+#include "btr-headers/pose3d.h"
 
+//faramotics 
+#include "window.h"
+
+//use std namespace
 using namespace std;
 
 /**
