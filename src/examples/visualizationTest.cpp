@@ -249,7 +249,7 @@ int main(int argc, char** argv)
         gettimeofday(&t2, NULL);                 
         
         //sleep to have time to see something
-        dt = (t2.tv_sec+t2.tv_usec/1e6) - (t2.tv_sec+t2.tv_usec/1e9);
+        dt = (t2.tv_sec+t2.tv_usec/1e6) - (t1.tv_sec+t1.tv_usec/1e9);
         dt = dt*1e6; //dt in milliseconds
         if (dt < 50000) usleep(50000-dt);
     }
