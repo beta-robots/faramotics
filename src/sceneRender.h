@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 
 //pose3d geometry
-#include "pose3d.h"
+#include "btr-headers/pose3d.h"
 
 //faramotics 
 #include "window.h"

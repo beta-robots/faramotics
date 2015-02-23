@@ -1,13 +1,13 @@
 FIND_PATH(
       faramotics_INCLUDE_DIRS
       NAMES window.h sceneRender.h dynamicSceneRender.h rangeSector.h rangeScan2D.h rangeImage.h deviceConsts.h
-      PATHS /usr/local/include/btr-headers
+      PATHS /usr/local/include/faramotics
 )
 
 FIND_LIBRARY(
       faramotics_LIBRARIES
       NAMES faramotics
-      PATHS /usr/local/lib/btr-libs
+      PATHS /usr/local/lib/faramotics
 )
 
 IF (faramotics_INCLUDE_DIRS AND faramotics_LIBRARIES)
