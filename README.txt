@@ -2,8 +2,11 @@
 FaRaMoTics: Fast Ranging Models for roboTics
 
 AUTHORS
-Andreu Corominas Murtra, from Beta Robots ( www.beta-robots.com )
-andreu (at) beta-robots.com
+Main Author: 
+	Andreu Corominas Murtra, from Beta Robots ( www.beta-robots.com ), andreu (at) beta-robots.com
+Collaborators: 
+	Eduard Trulls: Campus 3D model edition
+	Joan Vallvé: Bug fixing and CdynamicSceneRender::drawCorners()
 
 VERSION
 2.0
