@@ -40,7 +40,8 @@ void CdynamicSceneRender::render()
       	glCallList(modelList);
       	glCallList(scanHitsList);
       glCallList(depthPointsList);
-      glCallList(frameList);      
+      glCallList(frameList);
+      glCallList(cornersList);
       
       //that's all
 	glFinish();
@@ -87,6 +88,8 @@ void CdynamicSceneRender::drawPoseAxis(Cpose3d & axis)
 	glColor3f(0.,0.,100.);
 	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);	
 
+	glTranslatef(-axis.pt(0),-axis.pt(1),-axis.pt(2));// moves model origin
+
       //Ends list
 	glEndList();
 	glFinish();	//finish all openGL work
@@ -121,6 +124,34 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & s
             glTranslatef(scanPoint.pt(0),scanPoint.pt(1),scanPoint.pt(2));// moves model origin
             gluSphere(gluNewQuadric(),0.05, 5,5);
             glTranslatef(-scanPoint.pt(0),-scanPoint.pt(1),-scanPoint.pt(2));// moves model origin
+      }
+      glEndList();
+      glFinish(); //finish all openGL work
+}
+
+void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double> & corners)
+{
+      Cpose3d cornerPoint;
+
+      //set window and list
+      glutSetWindow(winId);
+
+      glNewList(cornersList, GL_COMPILE);
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+      glColor3f(0.,0.,100.); //set light green color
+
+      for (unsigned int ii=0; ii<corners.size(); ii+=2)
+      {
+            //compute the point wrt model
+    	  	cornerPoint.setPose(devicePose);
+    	  	cornerPoint.moveForward(corners[ii]);
+    	  	cornerPoint.rt.turnHeading(M_PI/2);
+    	  	cornerPoint.moveForward(corners[ii+1]);
+
+            //draws the scan point
+            glTranslatef(cornerPoint.pt(0),cornerPoint.pt(1),cornerPoint.pt(2));// moves model origin
+            gluSphere(gluNewQuadric(),0.1, 5,5);
+            glTranslatef(-cornerPoint.pt(0),-cornerPoint.pt(1),-cornerPoint.pt(2));// moves model origin
       }
 
       glEndList();

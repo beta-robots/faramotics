@@ -26,7 +26,7 @@ class CdynamicSceneRender : public CsceneRender
         * GL model lists containing dynamic objects
         *
         */
-        GLuint frameList, scanHitsList, depthPointsList;
+        GLuint frameList, scanHitsList, depthPointsList, cornersList;
 
     public:
         /** \brief Parameter constructor
@@ -65,6 +65,13 @@ class CdynamicSceneRender : public CsceneRender
         *
         */
         void drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle);
+
+        /** \brief corners points
+		*
+		* Draws corners points
+		*
+		*/
+        void drawCorners(Cpose3d & devicePose, const vector<double> & corners);
 
         /** \brief draws depth image
         *
