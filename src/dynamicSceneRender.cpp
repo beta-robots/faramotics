@@ -42,6 +42,7 @@ void CdynamicSceneRender::render()
       glCallList(depthPointsList);
       glCallList(frameList);
       glCallList(cornersList);
+      glCallList(landmarkList);
       
       //that's all
 	glFinish();
@@ -129,7 +130,7 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & s
       glFinish(); //finish all openGL work
 }
 
-void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double> & corners)
+void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double> & corners, double height, double radius)
 {
       Cpose3d cornerPoint;
 
@@ -149,9 +150,30 @@ void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double>
     	  	cornerPoint.moveForward(corners[ii+1]);
 
             //draws the scan point
-            glTranslatef(cornerPoint.pt(0),cornerPoint.pt(1),cornerPoint.pt(2));// moves model origin
-            gluSphere(gluNewQuadric(),0.1, 5,5);
-            glTranslatef(-cornerPoint.pt(0),-cornerPoint.pt(1),-cornerPoint.pt(2));// moves model origin
+            glTranslatef(cornerPoint.pt(0),cornerPoint.pt(1),cornerPoint.pt(2)-height/2);// moves model origin
+            gluCylinder(gluNewQuadric(),radius,radius,height,5,5);
+            glTranslatef(-cornerPoint.pt(0),-cornerPoint.pt(1),-cornerPoint.pt(2)+height/2);// moves model origin
+      }
+
+      glEndList();
+      glFinish(); //finish all openGL work
+}
+
+void CdynamicSceneRender::drawLandmarks(const vector<double> & landmarks, double height, double radius)
+{
+      //set window and list
+      glutSetWindow(winId);
+
+      glNewList(landmarkList, GL_COMPILE);
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+      glColor3f(100.,0.,0.); //set light red color
+
+      for (unsigned int ii=0; ii<landmarks.size(); ii+=3)
+      {
+            //draws the scan point
+            glTranslatef(landmarks[ii],landmarks[ii+1],landmarks[ii+2]-height/2);// moves model origin
+            gluCylinder(gluNewQuadric(),radius,radius,height,5,5);
+            glTranslatef(-landmarks[ii],-landmarks[ii+1],-landmarks[ii+2]+height/2);// moves model origin
       }
 
       glEndList();
