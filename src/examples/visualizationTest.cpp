@@ -179,7 +179,8 @@ int main(int argc, char** argv)
     }
     
     //glut initialization
-    glutInit(&argc, argv);
+    //glutInit(&argc, argv);
+    faramotics::initGLUT(argc, argv);
     
     //create a viewer for the 3D model and scan points
     myRender = new CdynamicSceneRender(1200,700,90*M_PI/180,90*700.0*M_PI/(1200.0*180.0),0.2,100);

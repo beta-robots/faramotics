@@ -11,6 +11,15 @@
 //namespaces
 using namespace std;
 
+//just encapsulate glutInit() call
+namespace faramotics
+{
+    static void initGLUT(int argc, char** argv)
+    {
+        glutInit(&argc, argv);
+    }
+}
+
 /** \brief Just a GLUT window to draw pixels
  * 
  * Just a GLUT window to draw pixels
