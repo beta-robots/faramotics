@@ -14,10 +14,7 @@ using namespace std;
 //just encapsulate glutInit() call
 namespace faramotics
 {
-    static void initGLUT(int argc, char** argv)
-    {
-        glutInit(&argc, argv);
-    }
+    void initGLUT(int argc, char** argv);
 }
 
 /** \brief Just a GLUT window to draw pixels

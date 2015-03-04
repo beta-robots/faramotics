@@ -1,5 +1,17 @@
 #include "window.h"
 
+//---------------- faramotics namespace --------------------------------------------------
+
+namespace faramotics
+{
+    void initGLUT(int argc, char** argv)
+    {
+        glutInit(&argc, argv);
+    }
+}
+
+//---------------- Window class --------------------------------------------------
+
 unsigned int Window::yOffset = 100; //init offset
 
 Window::Window(bool visible)
