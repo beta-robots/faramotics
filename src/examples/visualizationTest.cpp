@@ -17,7 +17,7 @@
 using namespace std;
 
 //3D models. Eiffel Tower from http://3dmag.org/en/market/item/258/
-enum {CAMPUS = 1, EIFFEL_TOWER};
+enum {CAMPUS = 1, EIFFEL_TOWER, CONTAINER_YARD};
 //const unsigned int environment_id = CAMPUS;
 
 //function to travel around each model
@@ -70,11 +70,6 @@ void motionCampus(unsigned int ii, Cpose3d & pose)
 
 void motionEiffelTower(unsigned int ii, Cpose3d & pose)
 {
-    
-//     if (ii<=100)
-//     {
-//         pose.rt.setEuler( pose.rt.head(), pose.rt.pitch()-0.4*M_PI/180., pose.rt.roll());
-//     }
     
     if (ii<=100)
     {
@@ -132,6 +127,11 @@ void motionEiffelTower(unsigned int ii, Cpose3d & pose)
     }
 }
 
+void motionContainerYard(unsigned int ii, Cpose3d & pose)
+{
+    pose.rt.setEuler( pose.rt.head()+2*M_PI/180., pose.rt.pitch(), pose.rt.roll());
+}
+
 
 int main(int argc, char** argv)
 {
@@ -152,8 +152,13 @@ int main(int argc, char** argv)
     {
         cout << "Invalid number of arguments!" << endl;
         cout << "Call test as: visualizationTest environmentID printFlag" << endl;
-        cout << "      environmentID: 1->CAMPUS UPC ; 2->EIFFEL TOWER" << endl;
-        cout << "      printFlag: 0->Don't print scan values ; 1->Print scan values" << endl;
+        cout << "      environmentID: "<< endl;
+        cout << "           1->CAMPUS UPC" << endl;
+        cout << "           2->EIFFEL TOWER; " << endl;
+        cout << "           2->CONTAINER_YARD; " << endl;
+        cout << "      printFlag: " << endl;
+        cout << "           0->Don't print scan values" << endl;
+        cout << "           1->Print scan values" << endl;
         cout << "EXIT PROGRAM" << endl;
         return -1;
     }
@@ -171,6 +176,10 @@ int main(int argc, char** argv)
             modelFileName = "../models/EiffelTower.STL";
             devicePose.setPose(0,-50,0,90,0,0, inDEGREES);
             break;
+        case CONTAINER_YARD:
+            modelFileName = "../models/shipping-container.blend";
+            devicePose.setPose(10,0,30,0,90,0, inDEGREES);
+            break;
         default:
             cout << "Unknown Environment ID" << endl;
             cout << "EXIT PROGRAM" << endl;
@@ -179,7 +188,6 @@ int main(int argc, char** argv)
     }
     
     //glut initialization
-    //glutInit(&argc, argv);
     faramotics::initGLUT(argc, argv);
     
     //create a viewer for the 3D model and scan points
@@ -213,6 +221,7 @@ int main(int argc, char** argv)
         {
             case CAMPUS: motionCampus(ii, devicePose); break;
             case EIFFEL_TOWER: motionEiffelTower(ii, devicePose); break;
+            case CONTAINER_YARD: motionContainerYard(ii, devicePose); break;
             default: break;
         }
         
