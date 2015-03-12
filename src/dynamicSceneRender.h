@@ -26,7 +26,7 @@ class CdynamicSceneRender : public CsceneRender
         * GL model lists containing dynamic objects
         *
         */
-        GLuint frameList, scanHitsList, depthPointsList, cornersList, landmarkList;
+        GLuint frameList, frameVectorList, scanHitsList, depthPointsList, cornersList, landmarkList;
 
     public:
         /** \brief Parameter constructor
@@ -57,7 +57,14 @@ class CdynamicSceneRender : public CsceneRender
         * Draws a classic RGB (XYZ) frame at position indicated by framePose
         *
         */
-        void drawPoseAxis(Cpose3d & axis);            
+        void drawPoseAxis(Cpose3d & axis);
+
+        /** \brief draws some frames
+        *
+        * Draws some classic RGB (XYZ) frames at position indicated by framePose
+        *
+        */
+        void drawPoseAxisVector(const vector<Cpose3d> & axis_vector);
 		
         /** \brief draws scan points
         *
