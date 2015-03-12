@@ -188,7 +188,6 @@ int main(int argc, char** argv)
     }
     
     //glut initialization
-    //glutInit(&argc, argv);
     faramotics::initGLUT(argc, argv);
     
     //create a viewer for the 3D model and scan points
