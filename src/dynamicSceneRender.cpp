@@ -181,6 +181,38 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & s
       glFinish(); //finish all openGL work
 }
 
+void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<double> & scan, const double aperture, const double firstAngle)
+{
+      unsigned int ii;
+      Cpose3d scanPoint;
+      double delta;
+      
+      //precompute angle increment
+      delta = aperture/(double)scan.size();
+            
+      //set window and list
+      glutSetWindow(winId);   
+
+      glNewList(scanHitsList, GL_COMPILE);
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+      glColor3f(0.,100.,0.); //set light green color
+
+      for (ii=0; ii<scan.size(); ii++)
+      {
+            //compute the point wrt model
+            scanPoint.setPose(devicePose);
+            scanPoint.rt.turnHeading(firstAngle-(double)ii*delta);//head the ray
+            scanPoint.moveForward(scan.at(ii));//move following the ray
+            
+            //draws the scan point
+            glTranslatef(scanPoint.pt(0),scanPoint.pt(1),scanPoint.pt(2));// moves model origin
+            gluSphere(gluNewQuadric(),0.05, 5,5);
+            glTranslatef(-scanPoint.pt(0),-scanPoint.pt(1),-scanPoint.pt(2));// moves model origin
+      }
+      glEndList();
+      glFinish(); //finish all openGL work
+}
+
 void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double> & corners, double height, double radius)
 {
       Cpose3d cornerPoint;

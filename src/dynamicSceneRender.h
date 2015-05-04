@@ -72,6 +72,7 @@ class CdynamicSceneRender : public CsceneRender
         *
         */
         void drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle);
+        void drawScan(Cpose3d & devicePose, const vector<double> & scan, const double aperture, const double firstAngle);
 
         /** \brief corners points
 		*
@@ -95,3 +96,4 @@ class CdynamicSceneRender : public CsceneRender
         void drawDepthPoints(Cpose3d & devicePose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
 };
 #endif
+

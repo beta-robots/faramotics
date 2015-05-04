@@ -140,3 +140,33 @@ void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
 	//compute scan for the last sector (the wide one)
 	sectors[ii]->rangeScan(ssp,scan);
 }
+
+void CrangeScan2D::computeScan(Cpose3d & ss, vector<double> & scan)
+{
+    unsigned int ii=0;
+    Cpose3d ssp; //pose of the sector center
+    
+    //sets ssp to the center 
+    ssp.setPose(ss);
+    
+    //Preallocate memory for scan array
+    scan.reserve(numPoints);
+
+      //initialize ssp to a first position. In case of one sector, ssp is not modified.
+    if (numSectors>1)
+    {
+        //ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
+        ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+    }
+    
+    //compute scans for the narrow sectors
+    for (ii=0;ii<numSectors-1;ii++)
+    {
+        sectors[ii]->rangeScan(ssp,scan);
+        //ssp.turnZaxis(-apertNarrow);//moves position for the next sector
+            ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+    }
+    
+    //compute scan for the last sector (the wide one)
+    sectors[ii]->rangeScan(ssp,scan);
+}

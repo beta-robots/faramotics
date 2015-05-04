@@ -65,3 +65,23 @@ void CrangeSector::rangeScan(Cpose3d & ss, vector<float> & scan)
 		//scan.at(ii+1) = dd/cosHi[ii];cout << ii << " " ;
 	}
 }
+
+void CrangeSector::rangeScan(Cpose3d & ss, vector<double> & scan)
+{
+    float dd, zbuf[widthP];
+    unsigned int ii;
+
+    scan.reserve(scan.size()+numPointsH);
+    
+    setViewPoint(ss);
+    render();
+    
+    //cout << __LINE__ << endl;
+    glReadPixels(1,(int)(floor(heightP/2)+1),widthP,1,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+    for (ii=0;ii<numPointsH;ii++)
+    {
+        dd = (zNear*zFar)/(zFar-zbuf[kH[ii]]*(zFar-zNear));//undoes z buffer normalization 
+        scan.push_back( (double)(dd/cosHi[ii]) );
+        //scan.at(ii+1) = dd/cosHi[ii];cout << ii << " " ;
+    }
+}
