@@ -9,6 +9,27 @@
 //std
 #include <iostream>
 
+/** \brief LookAt struct
+ *
+ * Pose (viewpoints) represented in a useful way for some OpenGL calls. 
+ * Parameters are as follows: 
+ *  - ex,ey,ez: eye location. 
+ *  - ax,ay,az: target point location ('at').
+ *  - ux,uy,uz: up vector (normalized) of the viewpoint position.
+ *
+*/
+struct LookAtParams
+{
+    Eigen::Vector3d eye_; //eye location
+    Eigen::Vector3d at_; //target point ('at')
+    Eigen::Vector3d up_; //up vector
+};
+
+/** \brief Class Pose
+ * 
+ * 3D pose: point and orientation
+ * 
+ **/
 class Pose
 {
     protected: 
@@ -20,6 +41,7 @@ class Pose
         Pose(); 
         Pose(const Eigen::Vector3d & _pt, const Eigen:Quaterniond & _qt); 
         Pose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
+        //Pose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
         
         //destructor
         ~Pose(); 
@@ -33,7 +55,8 @@ class Pose
        void setPoint(double _x, double _y, double _z);
        void setRotationByQuaternion(double _qr, double _qi, double _qj, double _qk);
        void setRotationByQuaternion(const Eigen::Quaterniond & _qt);
-       void setRotationByEuler(double _yaw, double _pitch, double _roll); 
+       void setRotationByEuler(double _yaw, double _pitch, double _roll);
+       void setPose(const Pose & _pose); 
        
        //print 
        void print() const;

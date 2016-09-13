@@ -1,13 +1,16 @@
 #include "sceneRender.h"
 
 CsceneRender::CsceneRender(bool visible) : 
-            Window(visible)
+    Window(visible), 
+    view_point_()
 {
-    viewPoint.setPose(1,5,1,0,0,0); //initializes view point
+    
 }
 
 CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label, bool visible) :
-            Window(visible)
+    Window(visible), 
+    view_point_()
+    
 {
     //init view point
     viewPoint.setPose(1,5,1,0,0,0); 
@@ -73,14 +76,15 @@ void CsceneRender::printRenderParameters()
     cout << "  zFar [meters] = " << zFar << endl;
 }
 
-void CsceneRender::setViewPoint(Cpose3d & vP)
+void CsceneRender::setViewPoint(Pose & vP)
 {
-    viewPoint.setPose(vP);
+    view_point_.setPose(vP);
 }
 
-void CsceneRender::setViewPoint(double cx, double cy, double cz, double ax, double ay, double az, bool rd)
+void CsceneRender::setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll)
 {
-    viewPoint.setPose(cx,cy,cz,ax,ay,az,rd);
+    view_point_.setPoint(_px, _py, _pz);
+    view_point_.setRotationByEuler(_yaw, _pitch, _roll);
 }
 
 void CsceneRender::render()

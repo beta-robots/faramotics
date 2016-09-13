@@ -8,10 +8,8 @@
 #include <assimp/postprocess.h> // Post processing flags
 #include <assimp/version.h> //assimp version
 
-//pose3d geometry
-#include "btr-headers/pose3d.h"
-
 //faramotics 
+#include "pose3d.h"
 #include "window.h"
 
 //use std namespace
@@ -110,7 +108,7 @@ class CsceneRender : public Window
 		 * Holds the view point position from which the scene is renderized for this window
 		 *
 		*/
-		Cpose3d viewPoint; 
+		Pose view_point_; 
 		
 		/** \brief GL model list
 		 *
@@ -188,7 +186,7 @@ class CsceneRender : public Window
 		 * Sets view point with a Cposition3d 
 		 *
 		*/										
-		void setViewPoint(Cpose3d & vP);
+		void setViewPoint(const Pose & vP);
 		
 		/** \brief Sets view point
 		 *
@@ -197,7 +195,7 @@ class CsceneRender : public Window
 		 * The three angles are the euler angles following the ZYX convention.
 		 *
 		*/										
-		void setViewPoint(double cx, double cy, double cz, double ax, double ay, double az, bool rd=inRADIANS);
+		void setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll);
 		
 		/** \brief Renders the model from the viewPoint
 		 *
