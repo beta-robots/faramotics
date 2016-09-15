@@ -12,9 +12,6 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
     view_point_()
     
 {
-    //init view point
-    viewPoint.setPose(1,5,1,0,0,0); 
-
     //init window and GL state
     setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
     initWindow(label);
@@ -76,9 +73,9 @@ void CsceneRender::printRenderParameters()
     cout << "  zFar [meters] = " << zFar << endl;
 }
 
-void CsceneRender::setViewPoint(Pose & vP)
+void CsceneRender::setViewPoint(Pose & _vp)
 {
-    view_point_.setPose(vP);
+    view_point_.setPose(_vp);
 }
 
 void CsceneRender::setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll)
@@ -89,7 +86,7 @@ void CsceneRender::setViewPoint(double _px, double _py, double _pz, double _yaw,
 
 void CsceneRender::render()
 {
-    lookAtValues lav;
+    lookAtParams laps;
 
     //sets target window      
     glutSetWindow(winId);
@@ -107,10 +104,12 @@ void CsceneRender::render()
     glLoadIdentity();
     
     //gets "look at" values from a 3D position
-    viewPoint.getLookAt(lav);
+    view_point_.getLookAt(lav);
     
-    //sets matrix viewpoint though gluLookAt
-    gluLookAt(lav.ex,lav.ey,lav.ez,lav.ax,lav.ay,lav.az,lav.ux,lav.uy,lav.uz);
+    //sets matrix viewpoint through gluLookAt
+    gluLookAt(  laps.eye_(0),laps.eye_(1),laps.eye_(2),
+                laps.at_(0),laps.at_(1),laps.at_(2),
+                laps.up_(0),laps.up_(1),laps.up_(2)     );
     
     //calls lists to render
     glCallList(modelList);

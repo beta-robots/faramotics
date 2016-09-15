@@ -103,7 +103,7 @@ void Window::fullScreen()
     
     widthP = glutGet(GLUT_SCREEN_WIDTH);
     heightP = glutGet(GLUT_SCREEN_HEIGHT);
-    cout << "sW = " << widthP << "; sH = " << heightP << endl; 
+    std::cout << "sW = " << widthP << "; sH = " << heightP << std::endl; 
 //     glMatrixMode(GL_PROJECTION);
 //     glLoadIdentity();
 //     gluPerspective(vAperture*180.0/M_PI, widthM/heightM, zNear, zFar);

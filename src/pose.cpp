@@ -7,7 +7,7 @@ Pose::Pose() :
     //
 } 
 
-Pose::Pose(const Eigen::Vector3d & _pt, const Eigen:Quaterniond & _ot) :
+Pose::Pose(const Eigen::Vector3d & _pt, const Eigen::Quaterniond & _ot) :
     point_(_pt),
     quaternion_(_qt)
 {
@@ -19,6 +19,12 @@ Pose::Pose(double _x, double _y, double _z, double _qr, double _qi, double _qj, 
     quaternion_(_qr,_qi,_qj,_qk)
 {
     //
+}
+
+void Pose::Pose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll) :
+    point_(_x,_y,_z)
+{
+    setRotationByEuler(_yaw,_pitch,_roll); 
 }
 
 Pose::~Pose()
@@ -34,6 +40,21 @@ const Eigen::Vector3d & Pose::getPoint() const
 void Pose::getRotationMatrix(Eigen::Matrix3d & _rotM) const
 {
     _rotM = quaternion_.toRotationMatrix(); 
+}
+
+void Pose::getLookAt(LookAtParams & _laps) const
+{
+    Eigen::Matrix3d & rM; 
+    
+    //eye location
+    _laps.eye_ << point_(0),point_(1),point_(2);
+    
+    //at point. Get forward axis (X) of this pose and prolongate it 100 units away
+    rM = quaternion_.toRotationMatrix(); 
+    _laps.at_ << rM(0,0),rM(1,0),rM(2,0);
+    
+    //up vector.  Z axis
+    _laps.at_ << rM(0,2),rM(1,2),rM(2,2);    
 }
 
 void Pose::setPoint(const Eigen::Vector3d & _pt)
@@ -86,6 +107,18 @@ void Pose::setPose(const Pose & _pose)
     quaternion_.x() = _pose.quaternion_.x(); 
     quaternion_.y() = _pose.quaternion_.y();
     quaternion_.z() = _pose.quaternion_.z(); 
+}
+
+void Pose::setPose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk)
+{
+    setPoint(_x,_y,_z);
+    setRotationByQuaternion(_qr,_qi,_qj_qk); 
+}
+
+void Pose::setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll)
+{
+    setPoint(_x,_y,_z);
+    setRotationByEuler(_yaw,_pitch,_roll); 
 }
 
 void Pose::print() const

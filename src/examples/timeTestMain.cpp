@@ -1,6 +1,9 @@
 
+//std
 #include <time.h>
 #include <sys/time.h>
+
+//faramotics
 #include "../src/rangeScan2D.h"
 #include "../src/rangeImage.h"
 
@@ -11,7 +14,7 @@ int main(int argc, char** argv)
 	unsigned int ii;
 	CrangeScan2D *myLaserScanner; 
 	CrangeImage *myDepthCamera;
-	Cpose3d pose;
+	Pose pose;
 	vector<float> myScan;
 	vector<float> myImage;
 	timeval t1,t2;
@@ -41,7 +44,7 @@ int main(int argc, char** argv)
 		dTimage = 0;
 		for (ii = 0 ; ii<nTrials; ii++)
 		{
-            pose.setPose(1.0+ii*1e-2, 1.0-ii*1e-2, 1.0, 30, 0.0, 0.0, inDEGREES);//just to modify a little bit the view point
+            pose.setPose(1.0+ii*1e-2, 1.0-ii*1e-2, 1.0, 30*M_PI/180., 0.0, 0.0);//just to modify a little bit the view point
             myScan.clear(); //clear vector results
             myImage.clear(); //clear vector results
 

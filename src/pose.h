@@ -9,13 +9,13 @@
 //std
 #include <iostream>
 
-/** \brief LookAt struct
+/** \brief LookAtParams struct
  *
  * Pose (viewpoints) represented in a useful way for some OpenGL calls. 
  * Parameters are as follows: 
- *  - ex,ey,ez: eye location. 
- *  - ax,ay,az: target point location ('at').
- *  - ux,uy,uz: up vector (normalized) of the viewpoint position.
+ *  \param eye_ (ex,ey,ez): eye location point. 
+ *  \param at_ (ax,ay,az): target point location ('at').
+ *  \param up_ (ux,uy,uz): up vector (normalized) of the viewpoint position.
  *
 */
 struct LookAtParams
@@ -34,14 +34,14 @@ class Pose
 {
     protected: 
         Eigen::Vector3d point_;
-        Eigen:Quaterniond quaternion_;
+        Eigen::Quaterniond quaternion_;
 
     public: 
         //constructors 
         Pose(); 
-        Pose(const Eigen::Vector3d & _pt, const Eigen:Quaterniond & _qt); 
+        Pose(const Eigen::Vector3d & _pt, const Eigen::Quaterniond & _qt); 
         Pose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
-        //Pose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
+        Pose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
         
         //destructor
         ~Pose(); 
@@ -49,6 +49,7 @@ class Pose
        //gets
        const Eigen::Vector3d & getPoint() const;        
        void getRotationMatrix(Eigen::Matrix3d & _rotM) const;
+       void getLookAt(LookAtParams & _laps) const;
        
        //sets
        void setPoint(const Eigen::Vector3d & _pt);
@@ -57,6 +58,8 @@ class Pose
        void setRotationByQuaternion(const Eigen::Quaterniond & _qt);
        void setRotationByEuler(double _yaw, double _pitch, double _roll);
        void setPose(const Pose & _pose); 
+       void setPose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
+       void setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
        
        //print 
        void print() const;

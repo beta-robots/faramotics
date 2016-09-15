@@ -46,14 +46,14 @@ CrangeSector::~CrangeSector()
 	cosHi.clear();
 }
 
-void CrangeSector::rangeScan(Cpose3d & ss, vector<float> & scan)
+void CrangeSector::rangeScan(const Pose & _ss, vector<float> & _scan)
 {
 	float dd, zbuf[widthP];
 	unsigned int ii;
 
 	scan.reserve(scan.size()+numPointsH);
 	
-	setViewPoint(ss);
+	setViewPoint(_ss);
 	render();
 	
 	//cout << __LINE__ << endl;

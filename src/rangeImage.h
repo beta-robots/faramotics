@@ -2,12 +2,12 @@
 #ifndef rangeImage_H
 #define rangeImage_H
 
-//include std
-#include <vector>
-
 //include faramotics
 #include "sceneRender.h"
 #include "deviceConsts.h"
+
+//include std
+#include <vector>
 
 /**
 * \brief CrangeImage class 

@@ -2,11 +2,11 @@
 #ifndef dynamicSceneRender_H
 #define dynamicSceneRender_H
 
-//std include
-#include <vector>
-
 //faramotics include
 #include "sceneRender.h"
+
+//std include
+#include <vector>
 
 /**
  * \brief GLUT window to render a 3D model
