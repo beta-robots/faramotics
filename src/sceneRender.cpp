@@ -73,7 +73,7 @@ void CsceneRender::printRenderParameters()
     cout << "  zFar [meters] = " << zFar << endl;
 }
 
-void CsceneRender::setViewPoint(Pose & _vp)
+void CsceneRender::setViewPoint(const Pose & _vp)
 {
     view_point_.setPose(_vp);
 }
@@ -86,7 +86,7 @@ void CsceneRender::setViewPoint(double _px, double _py, double _pz, double _yaw,
 
 void CsceneRender::render()
 {
-    lookAtParams laps;
+    LookAtParams laps;
 
     //sets target window      
     glutSetWindow(winId);
@@ -104,7 +104,7 @@ void CsceneRender::render()
     glLoadIdentity();
     
     //gets "look at" values from a 3D position
-    view_point_.getLookAt(lav);
+    view_point_.getLookAt(laps);
     
     //sets matrix viewpoint through gluLookAt
     gluLookAt(  laps.eye_(0),laps.eye_(1),laps.eye_(2),

@@ -121,7 +121,7 @@ class CrangeSector : public CsceneRender
         * Cast to double
         * TODO: Update of all faramotics to work with doubles
         */
-        void rangeScan(Cpose3d & ss, vector<double> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+        void rangeScan(const Pose & _ss, vector<double> & _scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
 
 };
 #endif

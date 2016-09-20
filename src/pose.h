@@ -46,23 +46,33 @@ class Pose
         //destructor
         ~Pose(); 
         
-       //gets
-       const Eigen::Vector3d & getPoint() const;        
-       void getRotationMatrix(Eigen::Matrix3d & _rotM) const;
-       void getLookAt(LookAtParams & _laps) const;
+        //gets
+        const Eigen::Vector3d & getPoint() const; 
+        double x() const; 
+        double y() const; 
+        double z() const; 
+        void getRotationMatrix(Eigen::Matrix3d & _rotM) const;
+        void getForwardLeft(Eigen::Vector3d & _fwd, Eigen::Vector3d & _lft) const;
+        void getLookAt(LookAtParams & _laps) const;
        
-       //sets
-       void setPoint(const Eigen::Vector3d & _pt);
-       void setPoint(double _x, double _y, double _z);
-       void setRotationByQuaternion(double _qr, double _qi, double _qj, double _qk);
-       void setRotationByQuaternion(const Eigen::Quaterniond & _qt);
-       void setRotationByEuler(double _yaw, double _pitch, double _roll);
-       void setPose(const Pose & _pose); 
-       void setPose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
-       void setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
+        //sets
+        void setPoint(const Eigen::Vector3d & _pt);
+        void setPoint(double _x, double _y, double _z);
+        void setRotationByQuaternion(double _qr, double _qi, double _qj, double _qk);
+        void setRotationByQuaternion(const Eigen::Quaterniond & _qt);
+        void setRotationByEuler(double _yaw, double _pitch, double _roll);
+        void setPose(const Pose & _pose); 
+        void setPose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
+        void setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
        
-       //print 
-       void print() const;
+        //motion
+        void moveForward(double _range); 
+        void rotateAboutX(double _angle);
+        void rotateAboutY(double _angle); 
+        void rotateAboutZ(double _angle);         
         
-}
+        //print 
+        void print() const;
+            
+};
 #endif

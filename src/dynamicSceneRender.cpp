@@ -16,46 +16,49 @@ CdynamicSceneRender::~CdynamicSceneRender()
 
 void CdynamicSceneRender::render()
 {
-   	lookAtValues lav;
-	
-      //sets target window
-	glutSetWindow(winId);
-      
-      //Clear Screen And Depth Buffer with previous values
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-      
-      //Sets GL_MODELVIEW, necessary to perform viewing and model transformations
-	glMatrixMode(GL_MODELVIEW); 
-      
-      //resets the model/view matrix
-	glLoadIdentity(); 
-      
-      //gets "look at" values from a 3D position
-	viewPoint.getLookAt(lav); 
-      
-      //sets matrix viewpoint though gluLookAt()
-	gluLookAt(lav.ex,lav.ey,lav.ez,lav.ax,lav.ay,lav.az,lav.ux,lav.uy,lav.uz);
-      
-      //calls all lists to render: model, scan and sensor frame
-      	glCallList(modelList);
-      	glCallList(scanHitsList);
-      glCallList(depthPointsList);
-      glCallList(frameList);
-      glCallList(frameVectorList);
-      glCallList(cornersList);
-      glCallList(landmarkList);
-      
-      //that's all
-	glFinish();
+    LookAtParams laps;
+
+    //sets target window
+    glutSetWindow(winId);
+
+    //Clear Screen And Depth Buffer with previous values
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+
+    //Sets GL_MODELVIEW, necessary to perform viewing and model transformations
+    glMatrixMode(GL_MODELVIEW); 
+
+    //resets the model/view matrix
+    glLoadIdentity(); 
+
+    //gets "look at" values from a 3D position
+    view_point_.getLookAt(laps); 
+
+    //sets matrix viewpoint through gluLookAt
+    gluLookAt(  laps.eye_(0),laps.eye_(1),laps.eye_(2),
+                laps.at_(0),laps.at_(1),laps.at_(2),
+                laps.up_(0),laps.up_(1),laps.up_(2)     );
+
+    //calls all lists to render: model, scan and sensor frame
+    glCallList(modelList);
+    glCallList(scanHitsList);
+    glCallList(depthPointsList);
+    glCallList(frameList);
+    glCallList(frameVectorList);
+    glCallList(cornersList);
+    glCallList(landmarkList);
+
+    //that's all
+    glFinish();
 }
 
-void CdynamicSceneRender::drawPoseAxis(Cpose3d & axis)
+void CdynamicSceneRender::drawPoseAxis(const Pose & _frame)
 {
 	//GLuint dynamicObjectsList;
-	double vv[6];
+	//double vv[6];
+    Eigen::Vector3d fwd, lft; 
 
     //gets pose as XYZ, fwd and left vectors
-    axis.getFwdLft(vv);      
+    _frame.getForwardLeft(fwd,lft);      
       
     //set current window and reset matrix view
 	glutSetWindow(winId);	
@@ -67,22 +70,22 @@ void CdynamicSceneRender::drawPoseAxis(Cpose3d & axis)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     //move axis origin
-    glTranslatef(axis.pt(0),axis.pt(1),axis.pt(2));// moves model origin
+    glTranslatef(_frame.x(),_frame.y(),_frame.z());// moves model origin
     //glPushMatrix();
     
 	//x axis
 	glColor3f(100.,0.,0.);
-	glRotated(90.0+axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+	glRotated(90.0+_frame.rt.pitch(inDEGREES),lft.x(),lft.y(),lft.z());
     //glPushMatrix();
 	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);
-	glRotated(-90.0-axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+	glRotated(-90.0-_frame.rt.pitch(inDEGREES),lft.x(),lft.y(),lft.z());
     //glPopMatrix();
 	
 	//y axis
 	glColor3f(0.,100.,0.);
-	glRotated(-90.0,vv[0],vv[1],vv[2]);
+	glRotated(-90.0,fwd.x(),fwd.y(),fwd.z());
     //glPushMatrix();
-	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);	
+	gluCylinder(gluNewQuadric(),fwd.x(),fwd.y(),fwd.z());	
 	glRotated(90.0,vv[0],vv[1],vv[2]);
     //glPopMatrix();
 	
@@ -90,69 +93,69 @@ void CdynamicSceneRender::drawPoseAxis(Cpose3d & axis)
 	glColor3f(0.,0.,100.);
 	gluCylinder(gluNewQuadric(),0.02,0.02,0.5,10,10);	
 
-	glTranslatef(-axis.pt(0),-axis.pt(1),-axis.pt(2));// moves model origin
+	glTranslatef(-_frame.x(),-_frame.y(),-_frame.z());// moves model origin
 
       //Ends list
 	glEndList();
 	glFinish();	//finish all openGL work
 }
 
-void CdynamicSceneRender::drawPoseAxisVector(const vector<Cpose3d> & axis_vector)
-{
-	//set current window and reset matrix view
-	glutSetWindow(winId);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+// void CdynamicSceneRender::drawPoseAxisVector(const vector<Cpose3d> & axis_vector)
+// {
+// 	//set current window and reset matrix view
+// 	glutSetWindow(winId);
+// 	glMatrixMode(GL_MODELVIEW);
+// 	glLoadIdentity();
+// 
+// 	//set list
+// 	glNewList(frameVectorList, GL_COMPILE);
+// 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+// 
+// 	for (uint i= 0; i < axis_vector.size(); i++)
+// 	{
+// 		Cpose3d axis = axis_vector[i];
+// 
+// 		//GLuint dynamicObjectsList;
+// 		double vv[6];
+// 
+// 		//gets pose as XYZ, fwd and left vectors
+// 		axis.getFwdLft(vv);
+// 
+// 		//move axis origin
+// 		glTranslatef(axis.pt(0),axis.pt(1),axis.pt(2));// moves model origin
+// 		//glPushMatrix();
+// 
+// 		//x axis
+// 		glColor3f(50.,0.,0.);
+// 		glRotated(90.0+axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+// 		//glPushMatrix();
+// 		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
+// 		glRotated(-90.0-axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
+// 		//glPopMatrix();
+// 
+// 		//y axis
+// 		glColor3f(0.,50.,0.);
+// 		glRotated(-90.0,vv[0],vv[1],vv[2]);
+// 		//glPushMatrix();
+// 		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
+// 		glRotated(90.0,vv[0],vv[1],vv[2]);
+// 		//glPopMatrix();
+// 
+// 		//z axis
+// 		glColor3f(0.,0.,50.);
+// 		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
+// 
+// 		glTranslatef(-axis.pt(0),-axis.pt(1),-axis.pt(2));// moves model origin
+// 	}
+// 	//Ends list
+// 	glEndList();
+// 	glFinish();	//finish all openGL work
+// }
 
-	//set list
-	glNewList(frameVectorList, GL_COMPILE);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	for (uint i= 0; i < axis_vector.size(); i++)
-	{
-		Cpose3d axis = axis_vector[i];
-
-		//GLuint dynamicObjectsList;
-		double vv[6];
-
-		//gets pose as XYZ, fwd and left vectors
-		axis.getFwdLft(vv);
-
-		//move axis origin
-		glTranslatef(axis.pt(0),axis.pt(1),axis.pt(2));// moves model origin
-		//glPushMatrix();
-
-		//x axis
-		glColor3f(50.,0.,0.);
-		glRotated(90.0+axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
-		//glPushMatrix();
-		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
-		glRotated(-90.0-axis.rt.pitch(inDEGREES),vv[3],vv[4],vv[5]);
-		//glPopMatrix();
-
-		//y axis
-		glColor3f(0.,50.,0.);
-		glRotated(-90.0,vv[0],vv[1],vv[2]);
-		//glPushMatrix();
-		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
-		glRotated(90.0,vv[0],vv[1],vv[2]);
-		//glPopMatrix();
-
-		//z axis
-		glColor3f(0.,0.,50.);
-		gluCylinder(gluNewQuadric(),0.02,0.02,0.3,10,10);
-
-		glTranslatef(-axis.pt(0),-axis.pt(1),-axis.pt(2));// moves model origin
-	}
-	//Ends list
-	glEndList();
-	glFinish();	//finish all openGL work
-}
-
-void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & scan, const double aperture, const double firstAngle)
+void CdynamicSceneRender::drawScan(const Pose & _device_pose, const vector<float> & scan, const double aperture, const double firstAngle)
 {
       unsigned int ii;
-      Cpose3d scanPoint;
+      Pose scanPoint;
       double delta;
       
       //precompute angle increment
@@ -168,7 +171,7 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & s
       for (ii=0; ii<scan.size(); ii++)
       {
             //compute the point wrt model
-            scanPoint.setPose(devicePose);
+            scanPoint.setPose(_device_pose);
             scanPoint.rt.turnHeading(firstAngle-(double)ii*delta);//head the ray
             scanPoint.moveForward(scan.at(ii));//move following the ray
             
@@ -181,10 +184,10 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<float> & s
       glFinish(); //finish all openGL work
 }
 
-void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<double> & scan, const double aperture, const double firstAngle)
+void CdynamicSceneRender::drawScan(const Pose & _device_pose, const vector<double> & scan, const double aperture, const double firstAngle)
 {
       unsigned int ii;
-      Cpose3d scanPoint;
+      Pose scanPoint;
       double delta;
       
       //precompute angle increment
@@ -200,7 +203,7 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<double> & 
       for (ii=0; ii<scan.size(); ii++)
       {
             //compute the point wrt model
-            scanPoint.setPose(devicePose);
+            scanPoint.setPose(_device_pose);
             scanPoint.rt.turnHeading(firstAngle-(double)ii*delta);//head the ray
             scanPoint.moveForward(scan.at(ii));//move following the ray
             
@@ -213,9 +216,9 @@ void CdynamicSceneRender::drawScan(Cpose3d & devicePose, const vector<double> & 
       glFinish(); //finish all openGL work
 }
 
-void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double> & corners, double height, double radius)
+void CdynamicSceneRender::drawCorners(const Pose & _device_pose, const vector<double> & corners, double height, double radius)
 {
-      Cpose3d cornerPoint;
+      Pose cornerPoint;
 
       //set window and list
       glutSetWindow(winId);
@@ -227,7 +230,7 @@ void CdynamicSceneRender::drawCorners(Cpose3d & devicePose, const vector<double>
       for (unsigned int ii=0; ii<corners.size(); ii+=2)
       {
             //compute the point wrt model
-    	  	cornerPoint.setPose(devicePose);
+    	  	cornerPoint.setPose(_device_pose);
     	  	cornerPoint.moveForward(corners[ii]);
     	  	cornerPoint.rt.turnHeading(M_PI/2);
     	  	cornerPoint.moveForward(corners[ii+1]);
@@ -263,10 +266,10 @@ void CdynamicSceneRender::drawLandmarks(const vector<double> & landmarks, double
       glFinish(); //finish all openGL work
 }
 
-void CdynamicSceneRender::drawDepthPoints(Cpose3d & devicePose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV)
+void CdynamicSceneRender::drawDepthPoints(const Pose & _device_pose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV)
 {
     unsigned int ii, jj;
-    Cpose3d depthPoint;
+    Pose depthPoint;
     double deltaH, deltaV, dd;
 
     //precompute angle increments
@@ -281,7 +284,7 @@ void CdynamicSceneRender::drawDepthPoints(Cpose3d & devicePose, const vector<flo
     //glColor3f(100.,0.,0.); //set light orange color ?
 
     //init point 
-//     depthPoint.setPose(devicePose);
+//     depthPoint.setPose(_device_pose);
 //     depthPoint.rt.turnPitch(-firstAngleV);
     
     for (ii=0; ii<nPointsV; ii=ii+5)
@@ -294,7 +297,7 @@ void CdynamicSceneRender::drawDepthPoints(Cpose3d & devicePose, const vector<flo
             {
                 //compute the point wrt model
                 //depthPoint.rt.turnHeading(-(double)jj*deltaH);//head the ray in heading            
-                depthPoint.setPose(devicePose);
+                depthPoint.setPose(_device_pose);
                 depthPoint.rt.turnHeading(firstAngleH-(double)jj*deltaH);//head the ray in heading
                 depthPoint.rt.turnPitch(firstAngleV-(double)ii*deltaV);//head the ray in pitch
                 dd = depths.at(ii*nPointsH + jj) / (cos(firstAngleH-(double)jj*deltaH)*cos(firstAngleH-(double)jj*deltaH));

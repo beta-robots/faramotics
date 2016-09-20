@@ -111,13 +111,13 @@ void CrangeScan2D::loadHardModel(const int modelID)
 	}
 }
 
-void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
+void CrangeScan2D::computeScan(const Pose & _ss, vector<float> & scan)
 {
 	unsigned int ii=0;
-	Cpose3d ssp; //pose of the sector center
+	Pose ssp; //pose of the sector center
 	
 	//sets ssp to the center 
-	ssp.setPose(ss);
+	ssp.setPose(_ss);
 	
 	//Preallocate memory for scan array
 	scan.reserve(numPoints);
@@ -126,7 +126,8 @@ void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
 	if (numSectors>1)
 	{
 		//ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
-		ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+		//ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+        ssp.rotateAboutX(aperture/2.0 - apertNarrow/2.0);
 	}
 	
 	//compute scans for the narrow sectors
@@ -134,20 +135,21 @@ void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
 	{
 		sectors[ii]->rangeScan(ssp,scan);
 		//ssp.turnZaxis(-apertNarrow);//moves position for the next sector
-            ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+        //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+        ssp.rotateAboutX(-apertNarrow);
 	}
 	
 	//compute scan for the last sector (the wide one)
 	sectors[ii]->rangeScan(ssp,scan);
 }
 
-void CrangeScan2D::computeScan(Cpose3d & ss, vector<double> & scan)
+void CrangeScan2D::computeScan(const Pose & _ss, vector<double> & scan)
 {
     unsigned int ii=0;
-    Cpose3d ssp; //pose of the sector center
+    Pose ssp; //pose of the sector center
     
     //sets ssp to the center 
-    ssp.setPose(ss);
+    ssp.setPose(_ss);
     
     //Preallocate memory for scan array
     scan.reserve(numPoints);
@@ -156,7 +158,8 @@ void CrangeScan2D::computeScan(Cpose3d & ss, vector<double> & scan)
     if (numSectors>1)
     {
         //ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
-        ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+        //ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+        ssp.rotateAboutX(aperture/2.0 - apertNarrow/2.0);
     }
     
     //compute scans for the narrow sectors
@@ -164,7 +167,8 @@ void CrangeScan2D::computeScan(Cpose3d & ss, vector<double> & scan)
     {
         sectors[ii]->rangeScan(ssp,scan);
         //ssp.turnZaxis(-apertNarrow);//moves position for the next sector
-            ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+        //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+        ssp.rotateAboutX(-apertNarrow);
     }
     
     //compute scan for the last sector (the wide one)

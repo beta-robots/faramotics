@@ -1,6 +1,8 @@
 # minimum cmake version
 cmake_minimum_required(VERSION 2.8)
 
+# PROJECT(faramotics)
+
 #required libs
 FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(GLUT REQUIRED)
@@ -14,29 +16,28 @@ INCLUDE_DIRECTORIES(${Assimp_SOURCE_DIR}/include ${Assimp_SOURCE_DIR}/code)
 
 #faramotics srcs
 SET(SRCS
+    pose.cpp
     window.cpp
     sceneRender.cpp
-    dynamicSceneRender.cpp
+#     dynamicSceneRender.cpp
     rangeSector.cpp
     rangeScan2D.cpp      
     rangeImage.cpp
-    pose.cpp
 )
 
 #faramotics headers
 SET(HEADERS 
+    pose.h
     window.h
     sceneRender.h
-    dynamicSceneRender.h
+#     dynamicSceneRender.h
     rangeSector.h
     rangeScan2D.h      
     rangeImage.h
     deviceConsts.h
-    pose.h
 )
 
 # create the shared library
-# cmake_policy(SET CMP0022 NEW)   
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${SRCS}) 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Assimp_LIBRARIES} ${OPENGL_LIBRARIES} ${GLUT_glut_LIBRARY})
 

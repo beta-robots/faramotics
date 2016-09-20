@@ -183,7 +183,7 @@ class CrangeScan2D
 		* Computes a full 2D range scan from position ss. Range results are output to scan vector.
 		*
 		*/		
-		void computeScan(Cpose3d & ss, vector<float> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+		void computeScan(const Pose & _ss, vector<float> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
         
         /** \brief Computes a full 2D range scan. Cast to double
         * 
@@ -192,6 +192,6 @@ class CrangeScan2D
         * TODO: Update of all faramotics to work with doubles
         *
         */              
-        void computeScan(Cpose3d & ss, vector<double> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+        void computeScan(const Pose & _ss, vector<double> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
 };
 #endif

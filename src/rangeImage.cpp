@@ -86,12 +86,12 @@ unsigned int CrangeImage::getNumVerticalPoints() const
     return numPointsV;
 }
 
-void CrangeImage::depthImage(Cpose3d & ss, vector<float> & depthImg)
+void CrangeImage::depthImage(const Pose & _ss, vector<float> & depthImg)
 {
 	float dd, zbuf[widthP*heightP];
 	unsigned int ii,jj;
 
-	setViewPoint(ss);
+	setViewPoint(_ss);
 	depthImg.reserve(numPointsH*numPointsV);
 	render();
 	glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
