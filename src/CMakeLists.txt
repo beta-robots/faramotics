@@ -1,8 +1,6 @@
 # minimum cmake version
 cmake_minimum_required(VERSION 2.8)
 
-# PROJECT(faramotics)
-
 #required libs
 FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(GLUT REQUIRED)
@@ -19,7 +17,7 @@ SET(SRCS
     pose.cpp
     window.cpp
     sceneRender.cpp
-#     dynamicSceneRender.cpp
+    dynamicSceneRender.cpp
     rangeSector.cpp
     rangeScan2D.cpp      
     rangeImage.cpp
@@ -30,7 +28,7 @@ SET(HEADERS
     pose.h
     window.h
     sceneRender.h
-#     dynamicSceneRender.h
+    dynamicSceneRender.h
     rangeSector.h
     rangeScan2D.h      
     rangeImage.h

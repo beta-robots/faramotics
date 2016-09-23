@@ -160,7 +160,13 @@ class CsceneRender : public Window
         *
         */										
         ~CsceneRender();
+        
+        //returns zNear
+        float getZNear() const; 
 
+        //returns zFar
+        float getZFar() const;         
+        
         /** \brief Sets rendering parameters 
         *
         * Sets rendering parameters:

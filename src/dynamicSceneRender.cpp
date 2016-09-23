@@ -51,6 +51,7 @@ void CdynamicSceneRender::render()
     glFinish();
 }
 
+/*
 void CdynamicSceneRender::drawPoseAxis(const Pose & _frame)
 {
 	//GLuint dynamicObjectsList;
@@ -99,6 +100,7 @@ void CdynamicSceneRender::drawPoseAxis(const Pose & _frame)
 	glEndList();
 	glFinish();	//finish all openGL work
 }
+*/
 
 // void CdynamicSceneRender::drawPoseAxisVector(const vector<Cpose3d> & axis_vector)
 // {
@@ -151,6 +153,8 @@ void CdynamicSceneRender::drawPoseAxis(const Pose & _frame)
 // 	glEndList();
 // 	glFinish();	//finish all openGL work
 // }
+
+/*
 
 void CdynamicSceneRender::drawScan(const Pose & _device_pose, const vector<float> & scan, const double aperture, const double firstAngle)
 {
@@ -319,3 +323,5 @@ void CdynamicSceneRender::drawDepthPoints(const Pose & _device_pose, const vecto
     glEndList();
     glFinish(); //finish all openGL work    
 }
+*/
+

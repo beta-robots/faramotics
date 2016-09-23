@@ -25,6 +25,14 @@ CrangeImage::CrangeImage(unsigned int deviceId)
                             KINECT_MIN_RANGE, KINECT_MAX_RANGE);                    
             cout << "CrangeImage::CrangeImage(): KINECT device created" << endl;
             break;
+
+        case ENSENSO_N35:
+            rangeImageInit( ENSENSO_N35_NUM_POINTS_HORIZONTAL, ENSENSO_N35_NUM_POINTS_VERTICAL, 
+                            ENSENSO_N35_APERTURE_HORIZONTAL, ENSENSO_N35_APERTURE_VERTICAL, 
+                            ENSENSO_N35_ANGULAR_ACCURACY_HORIZONTAL, ENSENSO_N35_ANGULAR_ACCURACY_VERTICAL, 
+                            ENSENSO_N35_MIN_RANGE, ENSENSO_N35_MAX_RANGE);                    
+            cout << "CrangeImage::CrangeImage(): ENSENSO_N35 device created" << endl;
+            break;
             
         default: 
             cout << "ERROR: CrangeImage::CrangeImage(): Unknown Device to compute rangeImages" << endl;
@@ -54,7 +62,6 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	
 	//sets render parameters
 	setRenderParameters(wPixels, hPixels, apertH, apertV, rmin, rmax);
-	//printRenderParameters();
 	
 	//inits window and GL state
 	initWindow("Range Image");

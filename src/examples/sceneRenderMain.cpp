@@ -1,7 +1,7 @@
 
 //faramotics
 #include "../src/sceneRender.h"
-#include "../src/groundRender.h"
+// #include "../src/groundRender.h"
 #include "../src/rangeSector.h"
 #include "../src/rangeImage.h"
 #include "../src/rangeScan2D.h"
@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
 	unsigned int ii;
 	CsceneRender *myRender;
-	CgroundRender *myGround1;
+// 	CgroundRender *myGround1;
 	CrangeSector *mySector1;
 	CrangeImage *myImage1;
 	CrangeScan2D *myScanner; 
@@ -22,8 +22,8 @@ int main(int argc, char** argv)
 	
 	glutInit(&argc, argv);//glut initialization
 		
-	myRender = new CsceneRender(500,500,70,70,0.2,100);
-	myRender->loadModel(SPHERE);
+	myRender = new CsceneRender(500,500,70,70,0.2,100, "faramotics");
+	myRender->loadHardModel(SPHERE);
 	myRender->setViewPoint(-2,0,0,0,0,0);
 	//myRender->fullScreen();
 	myRender->render();
@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 // 	delete myGround1;
 
 	mySector1 = new CrangeSector(67, 95*M_PI/180.0, 95*M_PI/(180.0*67), 0.3, 20);
-	mySector1->loadModel("/home/andreu/iriSw/algorithms/faramotics/trunk/models/campusNordUPC.obj");
+	mySector1->loadAssimpModel("/home/andreu/iriSw/algorithms/faramotics/trunk/models/campusNordUPC.obj");
 	pose.setPose(20,8,0.4,1.5,0,0);
 	mySector1->rangeScan(pose,myScan);
 	for (ii = 0 ; ii<myScan.size(); ii++) cout << myScan.at(ii) << " ";
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 	delete mySector1;
 	
 	myScanner = new CrangeScan2D(LEUZE_RS4);
-	myScanner->loadModel("/home/andreu/iriSw/algorithms/faramotics/trunk/models/campusNordUPC.obj");
+	myScanner->loadAssimpModel("/home/andreu/iriSw/algorithms/faramotics/trunk/models/campusNordUPC.obj");
 	pose.setPose(7.5,7.5,0,0,0,0);
 	myScan.clear();	
 	myScanner->computeScan(pose,myScan);
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
 	myImage1 = new CrangeImage(176,144,43.6*M_PI/180.0, 34.6*M_PI/180.0,0.25*M_PI/180.0,0.24*M_PI/180.0,0.3,5);
 	//myImage1->loadModel("/home/andreu/mySvn/faRaMoTics/models/campusNordUPC.obj");
-	myImage1->loadModel(SPHERE);
+	myImage1->loadHardModel(SPHERE);
 	pose.setPose(-3,0,0,0,0,0);
 	myImage1->depthImage(pose,myDepthI);
 	for (ii = 0 ; ii<myDepthI.size(); ii++) cout << myDepthI.at(ii) << " ";

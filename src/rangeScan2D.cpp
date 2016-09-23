@@ -127,7 +127,7 @@ void CrangeScan2D::computeScan(const Pose & _ss, vector<float> & scan)
 	{
 		//ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
 		//ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
-        ssp.rotateAboutX(aperture/2.0 - apertNarrow/2.0);
+        ssp.rotateAboutZ(aperture/2.0 - apertNarrow/2.0);
 	}
 	
 	//compute scans for the narrow sectors
@@ -136,7 +136,7 @@ void CrangeScan2D::computeScan(const Pose & _ss, vector<float> & scan)
 		sectors[ii]->rangeScan(ssp,scan);
 		//ssp.turnZaxis(-apertNarrow);//moves position for the next sector
         //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
-        ssp.rotateAboutX(-apertNarrow);
+        ssp.rotateAboutZ(-apertNarrow);
 	}
 	
 	//compute scan for the last sector (the wide one)
@@ -159,7 +159,7 @@ void CrangeScan2D::computeScan(const Pose & _ss, vector<double> & scan)
     {
         //ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
         //ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
-        ssp.rotateAboutX(aperture/2.0 - apertNarrow/2.0);
+        ssp.rotateAboutZ(aperture/2.0 - apertNarrow/2.0);
     }
     
     //compute scans for the narrow sectors
@@ -168,7 +168,7 @@ void CrangeScan2D::computeScan(const Pose & _ss, vector<double> & scan)
         sectors[ii]->rangeScan(ssp,scan);
         //ssp.turnZaxis(-apertNarrow);//moves position for the next sector
         //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
-        ssp.rotateAboutX(-apertNarrow);
+        ssp.rotateAboutZ(-apertNarrow);
     }
     
     //compute scan for the last sector (the wide one)

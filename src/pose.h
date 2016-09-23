@@ -66,7 +66,8 @@ class Pose
         void setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
        
         //motion
-        void moveForward(double _range); 
+        void moveForward(double _range);
+        void moveUp(double _range); 
         void rotateAboutX(double _angle);
         void rotateAboutY(double _angle); 
         void rotateAboutZ(double _angle);         

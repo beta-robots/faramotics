@@ -26,6 +26,16 @@ CsceneRender::~CsceneRender()
     glutDestroyWindow(winId);
 }
 
+float CsceneRender::getZNear() const
+{
+    return zNear; 
+}
+
+float CsceneRender::getZFar() const
+{
+    return zFar; 
+}
+
 void CsceneRender::initGL()
 {
     //check openGL version

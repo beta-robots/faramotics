@@ -156,6 +156,15 @@ void Pose::moveForward(double _range)
     point_ << point_(0) + rM(0,0)*_range, point_(1) + rM(1,0)*_range,point_(2) + rM(2,0)*_range;
 }
 
+void Pose::moveUp(double _range)
+{
+    Eigen::Matrix3d rM; 
+    
+    rM = quaternion_.toRotationMatrix(); 
+    point_ << point_(0) + rM(0,2)*_range, point_(1) + rM(1,2)*_range,point_(2) + rM(2,2)*_range;
+}
+
+
 void Pose::rotateAboutX(double _angle)
 {
     //build a quaternion rotating _angle about X

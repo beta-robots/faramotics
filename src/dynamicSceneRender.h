@@ -57,7 +57,7 @@ class CdynamicSceneRender : public CsceneRender
         * Draws a classic RGB (XYZ) frame at pose indicated by _frame
         *
         */
-        void drawPoseAxis(const Pose & _frame);
+        //void drawPoseAxis(const Pose & _frame);
 
         /** \brief draws some frames
         *
@@ -71,29 +71,29 @@ class CdynamicSceneRender : public CsceneRender
         * Draws scan points
         *
         */
-        void drawScan(const Pose & _device_pose, const vector<float> & scan, const double aperture, const double firstAngle);
-        void drawScan(const Pose & _device_Pose, const vector<double> & scan, const double aperture, const double firstAngle);
+        //void drawScan(const Pose & _device_pose, const vector<float> & scan, const double aperture, const double firstAngle);
+        //void drawScan(const Pose & _device_Pose, const vector<double> & scan, const double aperture, const double firstAngle);
 
         /** \brief corners points
 		*
 		* Draws corners points
 		*
 		*/
-        void drawCorners(const Pose & _device_pose, const vector<double> & corners, double height=0.1, double radius=0.05);
+        //void drawCorners(const Pose & _device_pose, const vector<double> & corners, double height=0.1, double radius=0.05);
 
         /** \brief corners points
 		*
 		* Draws corners points
 		*
 		*/
-        void drawLandmarks(const vector<double> & landmarks, double height=0.5, double radius=0.02);
+        //void drawLandmarks(const vector<double> & landmarks, double height=0.5, double radius=0.02);
 
         /** \brief draws depth image
         *
         * Draws depth image
         *
         */
-        void drawDepthPoints(const Pose & _device_pose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
+        //void drawDepthPoints(const Pose & _device_pose, const vector<float> & depths, const unsigned int nPointsH , const unsigned int nPointsV, const double apertureH, const double apertureV, const double firstAngleH, const double firstAngleV);
 };
 #endif
 
