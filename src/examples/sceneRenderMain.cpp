@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	CrangeScan2D *myScanner; 
 	Pose pose;
 	vector<float> myScan;
-	vector<float> myDepthI;
+	vector<double> myDepthI;
 	
 	glutInit(&argc, argv);//glut initialization
 		

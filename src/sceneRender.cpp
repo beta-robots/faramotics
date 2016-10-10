@@ -15,7 +15,7 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
     //init window and GL state
     setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
     initWindow(label);
-    initGL();
+    this->initGL();
     
     //init model render lists
     modelList = glGenLists(1);
@@ -23,7 +23,7 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
 
 CsceneRender::~CsceneRender()
 {
-    glutDestroyWindow(winId);
+    //glutDestroyWindow(winId);
 }
 
 float CsceneRender::getZNear() const

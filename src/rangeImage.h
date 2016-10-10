@@ -135,9 +135,10 @@ class CrangeImage : public CsceneRender
             /**
         * \brief Computes a full 3D depth image.
         * 
-        * Computes a full 3D depth image from position ss. Range results are output to scan vector.
+        * Computes a full 3D depth image from position ss. 
+        * Range results are output to scan vector, organized in row-major.
         *
         */		
-        void depthImage(const Pose & _ss, vector<float> & depthImg);
+        void depthImage(const Pose & _ss, vector<double> & depthImg);
 };
 #endif

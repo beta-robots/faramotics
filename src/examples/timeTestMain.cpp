@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	CrangeImage *myDepthCamera;
 	Pose pose;
 	vector<float> myScan;
-	vector<float> myImage;
+	vector<double> myImage;
 	timeval t1,t2;
 	double dTscan = 0;
 	double dTimage = 0;

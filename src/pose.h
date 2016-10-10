@@ -64,6 +64,7 @@ class Pose
         void setPose(const Pose & _pose); 
         void setPose(double _x, double _y, double _z, double _qr, double _qi, double _qj, double _qk);
         void setPose(double _x, double _y, double _z, double _yaw, double _pitch, double _roll);
+        void setPose(const Eigen::Matrix4d & _H); 
        
         //motion
         void moveForward(double _range);

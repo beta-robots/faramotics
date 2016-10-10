@@ -93,21 +93,24 @@ unsigned int CrangeImage::getNumVerticalPoints() const
     return numPointsV;
 }
 
-void CrangeImage::depthImage(const Pose & _ss, vector<float> & depthImg)
+void CrangeImage::depthImage(const Pose & _ss, vector<double> & depthImg)
 {
 	float dd, zbuf[widthP*heightP];
 	unsigned int ii,jj;
 
 	setViewPoint(_ss);
 	depthImg.reserve(numPointsH*numPointsV);
+    //depthImg.resize(numPointsH*numPointsV);
 	render();
-	glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+	//glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+    glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT, zbuf );//read the depth buffer
 	for (jj=0;jj<numPointsV;jj++)
 	{
 		for (ii=0;ii<numPointsH;ii++)
 		{
 			dd = (zNear*zFar)/(zFar-zbuf[kH[ii]+kV[jj]*widthP]*(zFar-zNear));//undoes z buffer normalization
-			depthImg.push_back(dd);
+			depthImg.push_back((double)dd);
+            //depthImg[jj*numPointsH + ii] = dd;
 		}
 	}
 }

@@ -1,10 +1,4 @@
 
-//C includes for sleep, time and main args
-// #include "unistd.h"
-// #include <time.h>
-// #include <sys/time.h>
-// #include <cstdlib>
-
 //faramotics includes
 #include "../src/window.h"
 #include "../src/sceneRender.h"
@@ -37,16 +31,16 @@ int main(int argc, char** argv)
     Window *myDepthImage;    
     Pose camera_pose;
     Pose gripper_pose;
-    vector<float> myDepths;
+    vector<double> myDepths;
     string modelFileName;
     unsigned int ii;
     timeval t1,t2;
     double dt;
         
     //init model and initial view point
-    modelFileName = "/home/andreu/Desktop/Robotiq_F2_85_HD.stl";
-    //camera_pose.setPose(0,0,200,0,1.57,0);
-    camera_pose.setPose(200,100,100,M_PI,-0.6,0);
+    modelFileName = "/home/andreu/Desktop/Robotiq_F2_85_LD.stl";
+    //camera_pose.setPose(200,100,100,M_PI,-0.6,0);
+    camera_pose.setPose(1400,100,100,M_PI,-0.6,0);
     
     //glut initialization
     faramotics::initGLUT(argc, argv);
@@ -66,7 +60,7 @@ int main(int argc, char** argv)
 
     //main loop after a pause
     sleep(1);
-    for (ii=0; ii<10; ii++)
+    for (ii=0; ii<100; ii++)
     {        
         //move
         moveModel(ii,camera_pose); 
@@ -83,7 +77,7 @@ int main(int argc, char** argv)
         myDepthImage->drawDepths(&myDepths.at(0),myDepthCamera->getZNear(),myDepthCamera->getZFar());
         
         //relax
-        usleep(100000);
+        usleep(200000);
     }
     
     //delete objects

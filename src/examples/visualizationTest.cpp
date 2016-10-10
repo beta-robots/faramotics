@@ -133,7 +133,7 @@ int main(int argc, char** argv)
     Pose viewPoint;
     Pose devicePose;
     vector<float> myScan;
-    vector<float> myDepths;
+    vector<double> myDepths;
     string modelFileName;
     unsigned int ii;
     timeval t1,t2;

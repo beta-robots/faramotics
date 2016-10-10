@@ -148,6 +148,11 @@ void Pose::setPose(double _x, double _y, double _z, double _yaw, double _pitch, 
     setRotationByEuler(_yaw,_pitch,_roll); 
 }
 
+void Pose::setPose(const Eigen::Matrix4d & _H)
+{
+    
+}
+
 void Pose::moveForward(double _range)
 {
     Eigen::Matrix3d rM; 
