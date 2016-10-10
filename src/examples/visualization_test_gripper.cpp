@@ -84,7 +84,6 @@ int main(int argc, char** argv)
 //     delete myRender;
     delete myDepthCamera;
     delete myDepthImage;
-    std::cout << "main(): " << __LINE__ << std::endl; 
 
     //return
     return 0;

@@ -52,6 +52,7 @@ class Pose
         double y() const; 
         double z() const; 
         void getRotationMatrix(Eigen::Matrix3d & _rotM) const;
+        void getHomogeneousMatrix(Eigen::Matrix4d & _rotH) const;
         void getForwardLeft(Eigen::Vector3d & _fwd, Eigen::Vector3d & _lft) const;
         void getLookAt(LookAtParams & _laps) const;
        

@@ -58,6 +58,13 @@ void Pose::getRotationMatrix(Eigen::Matrix3d & _rotM) const
     _rotM = quaternion_.toRotationMatrix(); 
 }
 
+void Pose::getHomogeneousMatrix(Eigen::Matrix4d & _rotH) const
+{
+    _rotH.block<3,3>(0,0) = quaternion_.toRotationMatrix(); 
+    _rotH.block<1,4>(3,0) << 0,0,0,1; 
+    _rotH.block<3,1>(0,3) = point_; 
+}
+
 void Pose::getForwardLeft(Eigen::Vector3d & _fwd, Eigen::Vector3d & _lft) const
 {
     Eigen::Matrix3d rM; 
