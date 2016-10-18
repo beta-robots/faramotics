@@ -14,10 +14,10 @@ INCLUDE_DIRECTORIES(${Assimp_SOURCE_DIR}/include ${Assimp_SOURCE_DIR}/code)
 
 #faramotics srcs
 SET(SRCS
-    pose.cpp
+#     pose.cpp
     window.cpp
     sceneRender.cpp
-    dynamicSceneRender.cpp
+#     dynamicSceneRender.cpp
     rangeSector.cpp
     rangeScan2D.cpp      
     rangeImage.cpp
@@ -25,10 +25,10 @@ SET(SRCS
 
 #faramotics headers
 SET(HEADERS 
-    pose.h
+#     pose.h
     window.h
     sceneRender.h
-    dynamicSceneRender.h
+#     dynamicSceneRender.h
     rangeSector.h
     rangeScan2D.h      
     rangeImage.h

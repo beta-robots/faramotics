@@ -9,8 +9,7 @@ CsceneRender::CsceneRender(bool visible) :
 
 CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label, bool visible) :
     Window(visible), 
-    view_point_()
-    
+    view_point_()  
 {
     //init window and GL state
     setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
@@ -83,21 +82,14 @@ void CsceneRender::printRenderParameters()
     cout << "  zFar [meters] = " << zFar << endl;
 }
 
-void CsceneRender::setViewPoint(const Pose & _vp)
+void CsceneRender::setViewPoint(const Eigen::Transform<double,3,Eigen::Affine> & _vp)
 {
-    view_point_.setPose(_vp);
+    view_point_ = _vp;
 }
 
-void CsceneRender::setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll)
-{
-    view_point_.setPoint(_px, _py, _pz);
-    view_point_.setRotationByEuler(_yaw, _pitch, _roll);
-}
 
 void CsceneRender::render()
-{
-    LookAtParams laps;
-
+{    
     //sets target window      
     glutSetWindow(winId);
     
@@ -113,13 +105,14 @@ void CsceneRender::render()
     //resets the model/view matrix
     glLoadIdentity();
     
-    //gets "look at" values from a 3D position
-    view_point_.getLookAt(laps);
+//     TODO set openGL matrix directly from Eigen Transform data pointer. See http://www.songho.ca/opengl/gl_transform.html
+//     Eigen::Transform<double,3,Eigen::Affine> vp(view_point_.inverse());
+//     glLoadMatrixd(vp.data()); //directly from Eigen matrix pointer. See http://eigen.tuxfamily.org/dox/group__TutorialGeometry.html
     
-    //sets matrix viewpoint through gluLookAt
-    gluLookAt(  laps.eye_(0),laps.eye_(1),laps.eye_(2),
-                laps.at_(0),laps.at_(1),laps.at_(2),
-                laps.up_(0),laps.up_(1),laps.up_(2)     );
+    //sets openGL matrix through gluLookAt (eye, at, up)
+    gluLookAt(  view_point_.translation().x(), view_point_.translation().y(), view_point_.translation().z(),
+                view_point_.linear()(0,0)*100, view_point_.linear()(1,0)*100, view_point_.linear()(2,0)*100,
+                view_point_.linear()(0,2), view_point_.linear()(1,2), view_point_.linear()(2,2) );
     
     //calls lists to render
     glCallList(modelList);

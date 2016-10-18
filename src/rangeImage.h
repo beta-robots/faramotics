@@ -132,13 +132,13 @@ class CrangeImage : public CsceneRender
         **/
         unsigned int getNumVerticalPoints() const;
 
-            /**
+        /**
         * \brief Computes a full 3D depth image.
         * 
         * Computes a full 3D depth image from position ss. 
         * Range results are output to scan vector, organized in row-major.
         *
         */		
-        void depthImage(const Pose & _ss, vector<double> & depthImg);
+        void depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _ss, vector<float> & depthImg);
 };
 #endif

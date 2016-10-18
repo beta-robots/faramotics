@@ -113,18 +113,18 @@ void Window::fullScreen()
     glutFullScreen();
 }
 
-void Window::draw(double* values)
+void Window::draw(float* values)
 {
     glutSetWindow(winId);
     glDrawPixels(widthP, heightP, GL_GREEN, GL_FLOAT, values);
     glFinish();
 }
 
-void Window::drawDepths(double* values, float minV, float maxV)
+void Window::drawDepths(float* values, float minV, float maxV)
 {
     for (unsigned int ii = 0; ii<widthP*heightP; ii++)
     {
-        values[ii] = (values[ii]-minV)/(maxV-minV);
+        values[ii] = (values[ii]-(float)minV)/(float)(maxV-minV);
     }
     draw(values);
 }

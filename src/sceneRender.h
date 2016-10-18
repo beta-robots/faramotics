@@ -2,8 +2,12 @@
 #define sceneRender_H
 
 //faramotics 
-#include "pose.h"
+// #include "pose.h"
 #include "window.h"
+
+//eigen
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Geometry>
 
 //asimp 3d model import
 #include <assimp/cimport.h>
@@ -53,10 +57,8 @@ enum hardCodedModels {DEBUG_SCENE = 1, SPHERE, FME_BIG_DOOR};
  * CsceneRender implements a GLUT window where a 3D model can be renderized from a "viewPoint" point of view.
  * THis class inherits from Window.
  * Aspect ratio and rendering volume can be all configured through constructor or through a setRenderParameters() function.
- * View point, referenced to the model origin, can be set as:
- *	- a Cpose3d object (libpose_state_time), or
- * 	- six parameters of a 3d position: (x,y,z,heading,pitch,roll), being the three angles the euler angles following the ZYX convention
- * The 3D model can be load passing a filename of a .obj file or inicating the ID of one of the hand-coded openGL models
+ * View point is an Eigen::Transform with respect to the model frame
+ * The 3D model can be load passing a filename of a .obj/.stl file or inicating the ID of one of the hand-coded openGL models
 */
 class CsceneRender : public Window
 {
@@ -106,9 +108,10 @@ class CsceneRender : public Window
         /** \brief View point 3D position
         *
         * Holds the view point position from which the scene is renderized for this window
+        * Pose with respect to the model frame
         *
         */
-        Pose view_point_; 
+        Eigen::Transform<double,3,Eigen::Affine> view_point_; 
 
         /** \brief GL model list
         *
@@ -189,10 +192,10 @@ class CsceneRender : public Window
 
         /** \brief Sets view point
         *
-        * Sets view point with a Cposition3d 
+        * Sets view point
         *
         */										
-        void setViewPoint(const Pose & _vp);
+        void setViewPoint(const Eigen::Transform<double,3,Eigen::Affine> & _vp);
 
         /** \brief Sets view point
         *
@@ -201,7 +204,7 @@ class CsceneRender : public Window
         * The three angles are the euler angles following the ZYX convention.
         *
         */										
-        void setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll);
+//         void setViewPoint(double _px, double _py, double _pz, double _yaw, double _pitch, double _roll);
 
         /** \brief Renders the model from the viewPoint
         *

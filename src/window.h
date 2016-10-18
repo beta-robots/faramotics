@@ -135,7 +135,7 @@ class Window
          * Array should have widthP x heightP dimension
          * 
          **/
-        void draw(double* values);
+        void draw(float* values);
 
         /** \brief Draw values to a single color channel, mapped between max and min
          * 
@@ -143,6 +143,6 @@ class Window
          * Array should have widthP x heightP dimension
          * 
          **/
-        void drawDepths(double* values, float minV, float maxV);
+        void drawDepths(float* values, float minV, float maxV);
 };
 #endif 

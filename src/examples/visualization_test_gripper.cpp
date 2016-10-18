@@ -1,10 +1,5 @@
 
 //faramotics includes
-#include "../src/window.h"
-#include "../src/sceneRender.h"
-#include "../src/dynamicSceneRender.h"
-#include "../src/rangeSector.h"
-#include "../src/rangeScan2D.h"
 #include "../src/rangeImage.h"
 
 //std
@@ -12,43 +7,46 @@
 
 
 //function to move the model
-void moveModel(unsigned int ii, Pose & _pose)
+void moveModel(unsigned int ii, Eigen::Transform<double,3,Eigen::Affine> & _pose)
 {
-    if (ii<=40) {
-        _pose.moveForward(0.1); }
-
-    if ( (ii>40) && (ii<=80) ) {
-        _pose.moveForward(0.1);
-        _pose.rotateAboutX(0.01);  }
-  
+    double aa; 
+    
+    if (ii<=40) 
+    {
+        aa = (double)ii/100.;
+        _pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(sin(aa),0,cos(aa)) );
+        _pose.translation() = Eigen::Vector3d(1200+(double)ii*5,0,0); 
+    }
+    
+    if ( (ii>40) && (ii<=80) ) 
+    {
+        aa = (double)ii/100.;
+        _pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(sin(aa),0,cos(aa)) );
+        _pose.translation() = Eigen::Vector3d(1200+(double)40*5,ii-40,0); 
+    }
 }
 
 
 int main(int argc, char** argv)
 {
-    CdynamicSceneRender *myRender;
     CrangeImage *myDepthCamera;
     Window *myDepthImage;    
-    Pose camera_pose;
-    Pose gripper_pose;
-    vector<double> myDepths;
+    Eigen::Transform<double,3,Eigen::Affine> camera_pose; //camera wrt the model
+    vector<float> myDepths;
     string modelFileName;
     unsigned int ii;
     timeval t1,t2;
     double dt;
         
-    //init model and initial view point
+    //model file name
     modelFileName = "/home/andreu/Desktop/Robotiq_F2_85_LD.stl";
-    //camera_pose.setPose(200,100,100,M_PI,-0.6,0);
-    camera_pose.setPose(1400,100,100,M_PI,-0.6,0);
+    
+    //set initial view point
+    camera_pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(0,0,1) );
+    camera_pose.translation() = Eigen::Vector3d(1200,0,0); 
     
     //glut initialization
     faramotics::initGLUT(argc, argv);
-    
-    //create a viewer for the 3D model and scan points
-//     myRender = new CdynamicSceneRender(1200,700,90*M_PI/180.,90*(700./1200.)*(M_PI/180.),10.,600.);
-//     myRender->loadAssimpModel(modelFileName,true); //with wireframe
-//     myRender->printRenderParameters();
     
     //create depth camera and load 3D model
     myDepthCamera = new CrangeImage(ENSENSO_N35);
@@ -65,10 +63,6 @@ int main(int argc, char** argv)
         //move
         moveModel(ii,camera_pose); 
         
-        //Set view point and render the scene
-//         myRender->setViewPoint(camera_pose);
-//         myRender->render();        
-        
         //compute depth image
         myDepths.clear();
         myDepthCamera->depthImage(camera_pose,myDepths);
@@ -81,7 +75,6 @@ int main(int argc, char** argv)
     }
     
     //delete objects
-//     delete myRender;
     delete myDepthCamera;
     delete myDepthImage;
 
