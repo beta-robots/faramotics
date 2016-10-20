@@ -122,3 +122,47 @@ void CrangeImage::depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _s
 		}
 	}
 }
+
+void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _ss, 
+                            vector<float> & _x_values,
+                            vector<float> & _y_values,
+                            vector<float> & _z_values )
+{
+    //local variables
+    float dd, zbuf[widthP*heightP];
+    float ai,aj; 
+
+    //sets view point
+    setViewPoint(_ss);
+    
+    //allocates memory
+    _x_values.reserve(numPointsH*numPointsV);
+    _y_values.reserve(numPointsH*numPointsV);
+    _z_values.reserve(numPointsH*numPointsV);
+    
+    //render model
+    render();
+    
+    //get depth buffer values
+    glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT, zbuf );//read the depth buffer
+    for (unsigned int ii=0; ii<numPointsV; ii++)
+    {
+        //vertical angle (elevation) //TODO precompute them at constructor
+        ai = vAperture*(0.5-(float)ii/(float)numPointsV);
+        
+        for (unsigned int jj=0; jj<numPointsH; jj++)
+        {
+            //depth value
+            dd = (zNear*zFar)/(zFar-zbuf[kH[jj]+kV[ii]*widthP]*(zFar-zNear));//undoes z buffer normalization
+            _x_values.push_back(dd); //depth. According LookAt rendering, where "at" vector is aligned with X axis
+            
+            //horizontal angle (azimuth) //TODO precompute them at constructor
+            aj = hAperture*(0.5-(float)jj/(float)numPointsH);
+            
+            //camera plane coordinates
+            _y_values.push_back(dd*tan(aj)); //horizontal coordinate
+            _z_values.push_back(dd*tan(ai)); //vertical coordinate
+        }
+    }
+}
+

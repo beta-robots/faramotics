@@ -135,10 +135,23 @@ class CrangeImage : public CsceneRender
         /**
         * \brief Computes a full 3D depth image.
         * 
-        * Computes a full 3D depth image from position ss. 
+        * Computes a full 3D depth image from pose _ss. 
         * Range results are output to scan vector, organized in row-major.
         *
         */		
         void depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _ss, vector<float> & depthImg);
+        
+        /**
+        * \brief Computes a full 3D popint cloud
+        * 
+        * Computes a full 3D depth image from pose _ss. 
+        * Returns vectors x,y and z
+        *
+        */      
+        void pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _ss, 
+                        vector<float> & _x_values,
+                        vector<float> & _y_values,
+                        vector<float> & _z_values );
+        
 };
 #endif
