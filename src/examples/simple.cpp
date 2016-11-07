@@ -1,6 +1,6 @@
 
 //faramotics includes
-#include "../src/sceneRender.h"
+#include "../sceneRender.h"
 
 //std
 #include <iostream>

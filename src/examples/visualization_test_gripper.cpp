@@ -1,6 +1,6 @@
 
 //faramotics includes
-#include "../src/rangeImage.h"
+#include "../rangeImage.h"
 
 //std
 #include <iostream>
