@@ -2,11 +2,11 @@
 #ifndef rangeSector_H
 #define rangeSector_H
 
-//std
-#include <vector>
-
 //faramotics
 #include "sceneRender.h"
+
+//std
+#include <vector>
 
 /**
 * \brief Vertical aperture for 2D sectors
@@ -112,16 +112,16 @@ class CrangeSector : public CsceneRender
 		* Computes the vector of ranges from the position ss, over the entire aperture of this sector
 		*
 		*/
-		void rangeScan(Cpose3d & ss, vector<float> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+		//void rangeScan(const Pose & _ss, vector<float> & _scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
         
         /**
         * \brief Computes a range scan. Cast to double
         * 
-        * Computes the vector of ranges from the position ss, over the entire aperture of this sector
+        * Computes the vector of ranges from the position _ps, over the entire aperture of this sector
         * Cast to double
         * TODO: Update of all faramotics to work with doubles
         */
-        void rangeScan(Cpose3d & ss, vector<double> & scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+        void rangeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
 
 };
 #endif

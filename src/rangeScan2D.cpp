@@ -111,62 +111,83 @@ void CrangeScan2D::loadHardModel(const int modelID)
 	}
 }
 
-void CrangeScan2D::computeScan(Cpose3d & ss, vector<float> & scan)
-{
-	unsigned int ii=0;
-	Cpose3d ssp; //pose of the sector center
-	
-	//sets ssp to the center 
-	ssp.setPose(ss);
-	
-	//Preallocate memory for scan array
-	scan.reserve(numPoints);
+// void CrangeScan2D::computeScan(const Pose & _ss, vector<float> & scan)
+// {
+// 	unsigned int ii=0;
+// 	Pose ssp; //pose of the sector center
+// 	
+// 	//sets ssp to the center 
+// 	ssp.setPose(_ss);
+// 	
+// 	//Preallocate memory for scan array
+// 	scan.reserve(numPoints);
+// 
+//       //initialize ssp to a first position. In case of one sector, ssp is not modified.
+// 	if (numSectors>1)
+// 	{
+// 		//ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
+// 		//ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+//         ssp.rotateAboutZ(aperture/2.0 - apertNarrow/2.0);
+// 	}
+// 	
+// 	//compute scans for the narrow sectors
+// 	for (ii=0;ii<numSectors-1;ii++)
+// 	{
+// 		sectors[ii]->rangeScan(ssp,scan);
+// 		//ssp.turnZaxis(-apertNarrow);//moves position for the next sector
+//         //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+//         ssp.rotateAboutZ(-apertNarrow);
+// 	}
+// 	
+// 	//compute scan for the last sector (the wide one)
+// 	sectors[ii]->rangeScan(ssp,scan);
+// }
 
-      //initialize ssp to a first position. In case of one sector, ssp is not modified.
-	if (numSectors>1)
-	{
-		//ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
-		ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
-	}
-	
-	//compute scans for the narrow sectors
-	for (ii=0;ii<numSectors-1;ii++)
-	{
-		sectors[ii]->rangeScan(ssp,scan);
-		//ssp.turnZaxis(-apertNarrow);//moves position for the next sector
-            ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
-	}
-	
-	//compute scan for the last sector (the wide one)
-	sectors[ii]->rangeScan(ssp,scan);
-}
-
-void CrangeScan2D::computeScan(Cpose3d & ss, vector<double> & scan)
+void CrangeScan2D::computeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan)
 {
     unsigned int ii=0;
-    Cpose3d ssp; //pose of the sector center
+    double angle; 
+    Eigen::Quaterniond qt; 
     
-    //sets ssp to the center 
-    ssp.setPose(ss);
+    //pose of the central sector
+    Eigen::Transform<double,3,Eigen::Affine> ssp(_ps); 
     
     //Preallocate memory for scan array
-    scan.reserve(numPoints);
+    _scan.reserve(numPoints);
 
-      //initialize ssp to a first position. In case of one sector, ssp is not modified.
+    //in case of more than 1 sector, initialize ssp to a first position
     if (numSectors>1)
     {
-        //ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
-        ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+        //rotate angle about Z        
+            //ssp.turnZaxis(aperture/2.0 - apertNarrow/2.0 );
+            //ssp.rt.turnHeading(aperture/2.0 - apertNarrow/2.0 );
+            //ssp.rotateAboutZ(aperture/2.0 - apertNarrow/2.0); 
+        angle = aperture/2.0 - apertNarrow/2.0;
+        qt.w() = cos(angle/2.); 
+        qt.x() = 0.;
+        qt.y() = 0.;
+        qt.z() = sin(angle/2.);
+        ssp = ssp*qt;         
     }
     
     //compute scans for the narrow sectors
     for (ii=0;ii<numSectors-1;ii++)
     {
-        sectors[ii]->rangeScan(ssp,scan);
-        //ssp.turnZaxis(-apertNarrow);//moves position for the next sector
-            ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+        //compute the scan for sector ii
+        sectors[ii]->rangeScan(ssp,_scan);
+        
+        //rotate angle about Z        
+            //ssp.turnZaxis(-apertNarrow);//moves position for the next sector
+            //ssp.rt.turnHeading(-apertNarrow);//moves position for the next sector
+            //ssp.rotateAboutZ(-apertNarrow);
+        angle = -apertNarrow;
+        qt.w() = cos(angle/2.); 
+        qt.x() = 0.;
+        qt.y() = 0.;
+        qt.z() = sin(angle/2.);
+        ssp = ssp*qt;         
     }
     
     //compute scan for the last sector (the wide one)
-    sectors[ii]->rangeScan(ssp,scan);
+    sectors[ii]->rangeScan(ssp,_scan);
 }

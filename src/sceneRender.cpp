@@ -1,21 +1,20 @@
 #include "sceneRender.h"
 
 CsceneRender::CsceneRender(bool visible) : 
-            Window(visible)
+    Window(visible), 
+    view_point_()
 {
-    viewPoint.setPose(1,5,1,0,0,0); //initializes view point
+    
 }
 
 CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vAp, float nearZ, float farZ, const std::string & label, bool visible) :
-            Window(visible)
+    Window(visible), 
+    view_point_()  
 {
-    //init view point
-    viewPoint.setPose(1,5,1,0,0,0); 
-
     //init window and GL state
     setRenderParameters(ww, hh, hAp, vAp, nearZ, farZ);
     initWindow(label);
-    initGL();
+    this->initGL();
     
     //init model render lists
     modelList = glGenLists(1);
@@ -23,7 +22,17 @@ CsceneRender::CsceneRender(unsigned int ww, unsigned int hh, float hAp, float vA
 
 CsceneRender::~CsceneRender()
 {
-    glutDestroyWindow(winId);
+    //glutDestroyWindow(winId);
+}
+
+float CsceneRender::getZNear() const
+{
+    return zNear; 
+}
+
+float CsceneRender::getZFar() const
+{
+    return zFar; 
 }
 
 void CsceneRender::initGL()
@@ -73,20 +82,14 @@ void CsceneRender::printRenderParameters()
     cout << "  zFar [meters] = " << zFar << endl;
 }
 
-void CsceneRender::setViewPoint(Cpose3d & vP)
+void CsceneRender::setViewPoint(const Eigen::Transform<double,3,Eigen::Affine> & _vp)
 {
-    viewPoint.setPose(vP);
+    view_point_ = _vp;
 }
 
-void CsceneRender::setViewPoint(double cx, double cy, double cz, double ax, double ay, double az, bool rd)
-{
-    viewPoint.setPose(cx,cy,cz,ax,ay,az,rd);
-}
 
 void CsceneRender::render()
-{
-    lookAtValues lav;
-
+{    
     //sets target window      
     glutSetWindow(winId);
     
@@ -102,11 +105,14 @@ void CsceneRender::render()
     //resets the model/view matrix
     glLoadIdentity();
     
-    //gets "look at" values from a 3D position
-    viewPoint.getLookAt(lav);
+//     TODO set openGL matrix directly from Eigen Transform data pointer. See http://www.songho.ca/opengl/gl_transform.html
+//     Eigen::Transform<double,3,Eigen::Affine> vp(view_point_.inverse());
+//     glLoadMatrixd(vp.data()); //directly from Eigen matrix pointer. See http://eigen.tuxfamily.org/dox/group__TutorialGeometry.html
     
-    //sets matrix viewpoint though gluLookAt
-    gluLookAt(lav.ex,lav.ey,lav.ez,lav.ax,lav.ay,lav.az,lav.ux,lav.uy,lav.uz);
+    //sets openGL matrix through gluLookAt (eye, at, up)
+    gluLookAt(  view_point_.translation().x(), view_point_.translation().y(), view_point_.translation().z(),
+                view_point_.linear()(0,0)*100, view_point_.linear()(1,0)*100, view_point_.linear()(2,0)*100,
+                view_point_.linear()(0,2), view_point_.linear()(1,2), view_point_.linear()(2,2) );
     
     //calls lists to render
     glCallList(modelList);

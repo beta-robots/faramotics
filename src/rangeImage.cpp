@@ -6,7 +6,8 @@ CrangeImage::CrangeImage(unsigned int numPH, unsigned int numPV, float apertH, f
 	rangeImageInit(numPH, numPV, apertH, apertV, angularAccH, angularAccV, rmin, rmax);
 }
 
-CrangeImage::CrangeImage(unsigned int deviceId)
+CrangeImage::CrangeImage(unsigned int deviceId) :
+            CsceneRender(true)
 {
     switch (deviceId)
     {
@@ -24,6 +25,14 @@ CrangeImage::CrangeImage(unsigned int deviceId)
                             KINECT_ANGULAR_ACCURACY_HORIZONTAL, KINECT_ANGULAR_ACCURACY_VERTICAL, 
                             KINECT_MIN_RANGE, KINECT_MAX_RANGE);                    
             cout << "CrangeImage::CrangeImage(): KINECT device created" << endl;
+            break;
+
+        case ENSENSO_N35:
+            rangeImageInit( ENSENSO_N35_NUM_POINTS_HORIZONTAL, ENSENSO_N35_NUM_POINTS_VERTICAL, 
+                            ENSENSO_N35_APERTURE_HORIZONTAL, ENSENSO_N35_APERTURE_VERTICAL, 
+                            ENSENSO_N35_ANGULAR_ACCURACY_HORIZONTAL, ENSENSO_N35_ANGULAR_ACCURACY_VERTICAL, 
+                            ENSENSO_N35_MIN_RANGE, ENSENSO_N35_MAX_RANGE);                    
+            cout << "CrangeImage::CrangeImage(): ENSENSO_N35 device created" << endl;
             break;
             
         default: 
@@ -54,7 +63,6 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	
 	//sets render parameters
 	setRenderParameters(wPixels, hPixels, apertH, apertV, rmin, rmax);
-	//printRenderParameters();
 	
 	//inits window and GL state
 	initWindow("Range Image");
@@ -86,21 +94,75 @@ unsigned int CrangeImage::getNumVerticalPoints() const
     return numPointsV;
 }
 
-void CrangeImage::depthImage(Cpose3d & ss, vector<float> & depthImg)
+void CrangeImage::depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _ss, vector<float> & depthImg)
 {
 	float dd, zbuf[widthP*heightP];
 	unsigned int ii,jj;
 
-	setViewPoint(ss);
+    //sets view point
+	setViewPoint(_ss);
+    
+    //allocates memory
 	depthImg.reserve(numPointsH*numPointsV);
+    //depthImg.resize(numPointsH*numPointsV);
+    
+    //render model
 	render();
-	glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+    
+    //get depth buffer values
+	//glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+    glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT, zbuf );//read the depth buffer
 	for (jj=0;jj<numPointsV;jj++)
 	{
 		for (ii=0;ii<numPointsH;ii++)
 		{
 			dd = (zNear*zFar)/(zFar-zbuf[kH[ii]+kV[jj]*widthP]*(zFar-zNear));//undoes z buffer normalization
 			depthImg.push_back(dd);
+            //depthImg[jj*numPointsH + ii] = dd;
 		}
 	}
 }
+
+void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _ss, 
+                            vector<float> & _x_values,
+                            vector<float> & _y_values,
+                            vector<float> & _z_values )
+{
+    //local variables
+    float dd, zbuf[widthP*heightP];
+    float ai,aj; 
+
+    //sets view point
+    setViewPoint(_ss);
+    
+    //allocates memory
+    _x_values.reserve(numPointsH*numPointsV);
+    _y_values.reserve(numPointsH*numPointsV);
+    _z_values.reserve(numPointsH*numPointsV);
+    
+    //render model
+    render();
+    
+    //get depth buffer values
+    glReadPixels(1,1,widthP,heightP,GL_DEPTH_COMPONENT,GL_FLOAT, zbuf );//read the depth buffer
+    for (unsigned int ii=0; ii<numPointsV; ii++)
+    {
+        //vertical angle (elevation) //TODO precompute them at constructor
+        ai = vAperture*(0.5-(float)ii/(float)numPointsV);
+        
+        for (unsigned int jj=0; jj<numPointsH; jj++)
+        {
+            //depth value
+            dd = (zNear*zFar)/(zFar-zbuf[kH[jj]+kV[ii]*widthP]*(zFar-zNear));//undoes z buffer normalization
+            _x_values.push_back(dd); //depth. According LookAt rendering, where "at" vector is aligned with X axis
+            
+            //horizontal angle (azimuth) //TODO precompute them at constructor
+            aj = hAperture*(0.5-(float)jj/(float)numPointsH);
+            
+            //camera plane coordinates
+            _y_values.push_back(dd*tan(aj)); //horizontal coordinate
+            _z_values.push_back(dd*tan(ai)); //vertical coordinate
+        }
+    }
+}
+

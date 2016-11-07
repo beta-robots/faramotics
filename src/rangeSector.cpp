@@ -46,42 +46,44 @@ CrangeSector::~CrangeSector()
 	cosHi.clear();
 }
 
-void CrangeSector::rangeScan(Cpose3d & ss, vector<float> & scan)
-{
-	float dd, zbuf[widthP];
-	unsigned int ii;
+// void CrangeSector::rangeScan(const Pose & _ss, vector<float> & _scan)
+// {
+// 	float dd, zbuf[widthP];
+// 	unsigned int ii;
+// 
+// 	_scan.reserve(_scan.size()+numPointsH);
+// 	
+// 	setViewPoint(_ss);
+// 	render();
+// 	
+// 	//cout << __LINE__ << endl;
+// 	glReadPixels(1,(int)(floor(heightP/2)+1),widthP,1,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
+// 	for (ii=0;ii<numPointsH;ii++)
+// 	{
+// 		dd = (zNear*zFar)/(zFar-zbuf[kH[ii]]*(zFar-zNear));//undoes z buffer normalization 
+// 		_scan.push_back(dd/cosHi[ii]);
+// 		//scan.at(ii+1) = dd/cosHi[ii];cout << ii << " " ;
+// 	}
+// }
 
-	scan.reserve(scan.size()+numPointsH);
-	
-	setViewPoint(ss);
-	render();
-	
-	//cout << __LINE__ << endl;
-	glReadPixels(1,(int)(floor(heightP/2)+1),widthP,1,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
-	for (ii=0;ii<numPointsH;ii++)
-	{
-		dd = (zNear*zFar)/(zFar-zbuf[kH[ii]]*(zFar-zNear));//undoes z buffer normalization 
-		scan.push_back(dd/cosHi[ii]);
-		//scan.at(ii+1) = dd/cosHi[ii];cout << ii << " " ;
-	}
-}
-
-void CrangeSector::rangeScan(Cpose3d & ss, vector<double> & scan)
+void CrangeSector::rangeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan)
 {
     float dd, zbuf[widthP];
     unsigned int ii;
 
-    scan.reserve(scan.size()+numPointsH);
+    //allocate space for the output vector
+    _scan.reserve(_scan.size()+numPointsH);
     
-    setViewPoint(ss);
+    //set view point and render the model from it
+    setViewPoint(_ps);
     render();
     
-    //cout << __LINE__ << endl;
+    //read depth buffer, and compute the true depths
     glReadPixels(1,(int)(floor(heightP/2)+1),widthP,1,GL_DEPTH_COMPONENT,GL_FLOAT,(GLvoid*)(&zbuf));//read the depth buffer
     for (ii=0;ii<numPointsH;ii++)
     {
         dd = (zNear*zFar)/(zFar-zbuf[kH[ii]]*(zFar-zNear));//undoes z buffer normalization 
-        scan.push_back( (double)(dd/cosHi[ii]) );
+        _scan.push_back( (double)(dd/cosHi[ii]) );
         //scan.at(ii+1) = dd/cosHi[ii];cout << ii << " " ;
     }
 }

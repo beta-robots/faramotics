@@ -1,15 +1,12 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-//std
-#include <iostream>
-#include <string>
-
 //GLUT
 #include <GL/glut.h>
 
-//namespaces
-using namespace std;
+//std
+#include <iostream>
+#include <string>
 
 //just encapsulate glutInit() call
 namespace faramotics

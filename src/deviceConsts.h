@@ -6,13 +6,14 @@ enum knownScannerDevices {
         LEUZE_RS4 = 1, 
         HOKUYO_UTM30LX, 
         HOKUYO_UTM30LX_180DEG, 
-        HOKUYO_UTM30LX_180DEG_SKIP2};
+        HOKUYO_UTM30LX_180DEG_SKIP2 };
         
 // Known devices id's for depth images
 enum knownDepthCameraDevices {
         SR4000 = 1, 
         KINECT, 
-        TOF_X};
+        TOF_X,
+        ENSENSO_N35 };
         
 // Maximum allowed sectors
 static const unsigned int MAX_SECTORS=6;
@@ -55,9 +56,18 @@ const unsigned int KINECT_NUM_POINTS_VERTICAL = 480;
 const double KINECT_APERTURE_HORIZONTAL = 57.*M_PI/180.;
 const double KINECT_APERTURE_VERTICAL = 43.*M_PI/180.;
 const double KINECT_ANGULAR_ACCURACY_HORIZONTAL = (57./640.)*(M_PI/180.);
-const double KINECT_ANGULAR_ACCURACY_VERTICAL = (43./640.)*(M_PI/180.);
+const double KINECT_ANGULAR_ACCURACY_VERTICAL = (43./480.)*(M_PI/180.);
 const double KINECT_MIN_RANGE = 0.7; 
 const double KINECT_MAX_RANGE = 6.; 
 
+//ENSENSO_N35 params
+const unsigned int ENSENSO_N35_NUM_POINTS_HORIZONTAL = 1280;
+const unsigned int ENSENSO_N35_NUM_POINTS_VERTICAL = 1024;
+const double ENSENSO_N35_APERTURE_HORIZONTAL = 0.4973119; //90.*(M_PI/180.);
+const double ENSENSO_N35_APERTURE_VERTICAL =   0.4259958;  //90.*(700./1200.)*(M_PI/180.);
+const double ENSENSO_N35_ANGULAR_ACCURACY_HORIZONTAL = ENSENSO_N35_APERTURE_HORIZONTAL / (double)ENSENSO_N35_NUM_POINTS_HORIZONTAL;
+const double ENSENSO_N35_ANGULAR_ACCURACY_VERTICAL = ENSENSO_N35_APERTURE_VERTICAL / (double)ENSENSO_N35_NUM_POINTS_VERTICAL;
+const double ENSENSO_N35_MIN_RANGE = 1100;//150.; //in mm
+const double ENSENSO_N35_MAX_RANGE = 2300;//250.; //in mm
 
 #endif
