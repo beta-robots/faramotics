@@ -116,7 +116,7 @@ class CrangeImage : public CsceneRender
         * Destructor
         *
         */		
-        ~CrangeImage();
+        virtual ~CrangeImage();
             
         /** \brief Returns num horizontal points 
         * 

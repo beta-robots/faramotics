@@ -2,7 +2,7 @@ FIND_PATH(
       faramotics_INCLUDE_DIRS
 #       NAMES window.h sceneRender.h dynamicSceneRender.h rangeSector.h rangeScan2D.h rangeImage.h deviceConsts.h
       NAMES window.h sceneRender.h dynamicSceneRender.h rangeSector.h rangeScan2D.h rangeImage.h deviceConsts.h
-      PATHS /usr/local/include
+      PATHS /usr/local/include/faramotics
 )
 
 FIND_LIBRARY(
