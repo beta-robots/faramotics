@@ -131,6 +131,7 @@ void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _s
     //local variables
     float dd, zbuf[widthP*heightP];
     float ai,aj; 
+    unsigned valid_points = 0; 
 
     //sets view point
     setViewPoint(_ss);
@@ -148,21 +149,37 @@ void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _s
     for (unsigned int ii=0; ii<numPointsV; ii++)
     {
         //vertical angle (elevation) //TODO precompute them at constructor
-        ai = vAperture*(0.5-(float)ii/(float)numPointsV);
+        ai = vAperture*(-0.5+(float)ii/(float)numPointsV);
         
         for (unsigned int jj=0; jj<numPointsH; jj++)
         {
             //depth value
             dd = (zNear*zFar)/(zFar-zbuf[kH[jj]+kV[ii]*widthP]*(zFar-zNear));//undoes z buffer normalization
-            _x_values.push_back(dd); //depth. According LookAt rendering, where "at" vector is aligned with X axis
             
-            //horizontal angle (azimuth) //TODO precompute them at constructor
-            aj = hAperture*(0.5-(float)jj/(float)numPointsH);
-            
-            //camera plane coordinates
-            _y_values.push_back(dd*tan(aj)); //horizontal coordinate
-            _z_values.push_back(dd*tan(ai)); //vertical coordinate
+            if ( ( dd < (zFar-10) ) && ( dd > (zNear+10) ) )//avoid returning points close ot the limits of the frustum
+            {
+                //depth. According LookAt rendering, where "at" vector is aligned with X axis
+                _x_values.push_back(dd); 
+                
+                //horizontal angle (azimuth) //TODO precompute them at constructor
+                aj = hAperture*(0.5-(float)jj/(float)numPointsH);
+                
+                //camera plane coordinates
+                _y_values.push_back(dd*tan(aj)); //horizontal coordinate
+                _z_values.push_back(dd*tan(ai)); //vertical coordinate
+                
+                //increment valid counter
+                valid_points ++; 
+            }
         }
     }
+    
+    //crop allocated memory
+    _x_values.resize(valid_points);
+    _y_values.resize(valid_points);
+    _z_values.resize(valid_points);
+    
 }
+
+
 
