@@ -67,7 +67,7 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	//inits window and GL state
 	initWindow("Range Image");
 	initGL();
-	//this->hide();
+	this->hide();
 	
 	//precomputes vectors
 	for (ii=0;ii<numPointsH;ii++) //precomputes vectors (horizontal)
@@ -75,12 +75,14 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 		ai=hAperture*(0.5-(float)ii/(float)numPointsH);//angle associated to ray i
 		wi=zNear*tan(ai);//distance from the hit point i to the x sensor axis
 		kH.push_back( (int) ((0.5 - wi/widthM)*widthP) );//pixel index associated to ray i
+                //std::cout << kH.back() << std::endl; 
 	}	
 	for (ii=0;ii<numPointsV;ii++) //precomputes vectors (vertical)
 	{
 		ai=vAperture*(0.5-(float)ii/(float)numPointsV);//angle associated to ray i
 		wi=zNear*tan(ai);//distance from the hit point i to the x sensor axis
 		kV.push_back( (int) ((0.5 - wi/heightM)*heightP) );//pixel index associated to ray i
+                //std::cout << kV.back() << std::endl; 
 	}
 }
 
@@ -132,15 +134,15 @@ void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _s
     float dd, zbuf[widthP*heightP];
     float ai,aj; 
     unsigned valid_points = 0; 
-
-    //sets view point
-    setViewPoint(_ss);
     
     //allocates memory
     _x_values.reserve(numPointsH*numPointsV);
     _y_values.reserve(numPointsH*numPointsV);
-    _z_values.reserve(numPointsH*numPointsV);
-    
+    _z_values.reserve(numPointsH*numPointsV);    
+
+    //set view point
+    setViewPoint(_ss);
+        
     //render model
     render();
     
@@ -154,9 +156,10 @@ void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _s
         for (unsigned int jj=0; jj<numPointsH; jj++)
         {
             //depth value
-            dd = (zNear*zFar)/(zFar-zbuf[kH[jj]+kV[ii]*widthP]*(zFar-zNear));//undoes z buffer normalization
+            dd = (zNear*zFar)/(zFar-zbuf[kV[ii]*widthP+kH[jj]]*(zFar-zNear));//undoes z buffer normalization
             
-            if ( ( dd < (zFar-10) ) && ( dd > (zNear+10) ) )//avoid returning points close ot the limits of the frustum
+            //if ( ( dd < (zFar-10) ) && ( dd > (zNear+10) ) )//avoid returning points close ot the limits of the frustum
+            if ( dd < (zFar-10) )//avoid returning points close ot the limits of the frustum                    
             {
                 //depth. According LookAt rendering, where "at" vector is aligned with X axis
                 _x_values.push_back(dd); 
