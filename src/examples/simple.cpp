@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {
     CsceneRender *view;
     Window *win;
-    Eigen::Transform<double,3,Eigen::Affine> eye; //camera wrt the model
+    Eigen::Affine3d eye; //camera wrt the model
     std::string modelFileName;
     
     //init model and initial view point

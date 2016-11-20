@@ -139,7 +139,7 @@ class CrangeImage : public CsceneRender
         * Range results are output to scan vector, organized in row-major.
         *
         */		
-        void depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _ss, vector<float> & depthImg);
+        void depthImage(const Eigen::Affine3d & _ss, vector<float> & depthImg);
         
         /**
         * \brief Computes a full 3D popint cloud
@@ -148,7 +148,7 @@ class CrangeImage : public CsceneRender
         * Returns vectors x,y and z
         *
         */      
-        void pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _ss, 
+        void pointCloud(const Eigen::Affine3d & _ss, 
                         vector<float> & _x_values,
                         vector<float> & _y_values,
                         vector<float> & _z_values );

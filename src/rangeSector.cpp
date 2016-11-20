@@ -66,7 +66,7 @@ CrangeSector::~CrangeSector()
 // 	}
 // }
 
-void CrangeSector::rangeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan)
+void CrangeSector::rangeScan(const Eigen::Affine3d & _ps, vector<double> & _scan)
 {
     float dd, zbuf[widthP];
     unsigned int ii;

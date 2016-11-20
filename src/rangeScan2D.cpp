@@ -143,14 +143,14 @@ void CrangeScan2D::loadHardModel(const int modelID)
 // 	sectors[ii]->rangeScan(ssp,scan);
 // }
 
-void CrangeScan2D::computeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan)
+void CrangeScan2D::computeScan(const Eigen::Affine3d & _ps, vector<double> & _scan)
 {
     unsigned int ii=0;
     double angle; 
     Eigen::Quaterniond qt; 
     
     //pose of the central sector
-    Eigen::Transform<double,3,Eigen::Affine> ssp(_ps); 
+    Eigen::Affine3d ssp(_ps); 
     
     //Preallocate memory for scan array
     _scan.reserve(numPoints);

@@ -9,22 +9,38 @@
 
 //std
 #include <iostream>
+#include <cstdlib>
 
 int main(int argc, char** argv)
 {
     CrangeImage *depth_camera;
-    Eigen::Transform<double,3,Eigen::Affine> camera_pose; //camera wrt the model
+    Eigen::Affine3d camera_pose; //camera wrt the model
     string modelFileName;
     std::vector<float> scloud_x, scloud_y, scloud_z; 
     pcl::PointCloud<pcl::PointXYZ>::Ptr synthetic_cloud(new pcl::PointCloud<pcl::PointXYZ>()); //TODO: Should be with normals if faramotics can directly set them
     unsigned correct_points = 0; 
+
+    //check and get user args
+    if (argc != 2)
+    {   
+        std::cout << "invalid arguments. Call with \"point_cloud ROT-ANGLE\". EXIT" << std::endl; 
+        return -1;
+    }
+    else
+    {
+        //set initial view point
+        //camera_pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(0,0,1) );
+        //camera_pose.translation() = Eigen::Vector3d(1000,0,0); 
+        std::cout << "angle: " << atof(argv[1]) << std::endl; 
+        camera_pose = Eigen::AngleAxisd( atof(argv[1]), Eigen::Vector3d(0,0,1) );
+        camera_pose.translation() = Eigen::Vector3d(-1000,0,0);         
+//         camera_pose.translate( Eigen::Vector3f(-1000,0,0) );                 
+//      camera_pose.rotate( Eigen::AngleAxisf( atof(argv[1]), Eigen::Vector3f(0,0,1) ) );
         
+    }
+    
     //model file name
     modelFileName = "/home/andreu/Desktop/Robotiq_F2_85_LD.stl";
-    
-    //set initial view point
-    camera_pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(0,0,1) );
-    camera_pose.translation() = Eigen::Vector3d(1000,0,0); 
     
     //glut initialization
     faramotics::initGLUT(argc, argv);

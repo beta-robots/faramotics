@@ -67,7 +67,7 @@ void CrangeImage::rangeImageInit(unsigned int numPH, unsigned int numPV, float a
 	//inits window and GL state
 	initWindow("Range Image");
 	initGL();
-	this->hide();
+	//this->hide();
 	
 	//precomputes vectors
 	for (ii=0;ii<numPointsH;ii++) //precomputes vectors (horizontal)
@@ -96,7 +96,7 @@ unsigned int CrangeImage::getNumVerticalPoints() const
     return numPointsV;
 }
 
-void CrangeImage::depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _ss, vector<float> & depthImg)
+void CrangeImage::depthImage(const Eigen::Affine3d & _ss, vector<float> & depthImg)
 {
 	float dd, zbuf[widthP*heightP];
 	unsigned int ii,jj;
@@ -125,7 +125,7 @@ void CrangeImage::depthImage(const Eigen::Transform<double,3,Eigen::Affine> & _s
 	}
 }
 
-void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _ss, 
+void CrangeImage::pointCloud(const Eigen::Affine3d & _ss, 
                             vector<float> & _x_values,
                             vector<float> & _y_values,
                             vector<float> & _z_values )
@@ -181,6 +181,9 @@ void CrangeImage::pointCloud(const Eigen::Transform<double,3,Eigen::Affine> & _s
     _x_values.resize(valid_points);
     _y_values.resize(valid_points);
     _z_values.resize(valid_points);
+    
+    //debugging
+    //_x_values.at(valid_points-1) = 1.;
     
 }
 

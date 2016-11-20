@@ -111,7 +111,7 @@ class CsceneRender : public Window
         * Pose with respect to the model frame
         *
         */
-        Eigen::Transform<double,3,Eigen::Affine> view_point_; 
+        Eigen::Affine3d view_point_; 
 
         /** \brief GL model list
         *
@@ -195,7 +195,7 @@ class CsceneRender : public Window
         * Sets view point
         *
         */										
-        void setViewPoint(const Eigen::Transform<double,3,Eigen::Affine> & _vp);
+        void setViewPoint(const Eigen::Affine3d & _vp);
 
         /** \brief Sets view point
         *

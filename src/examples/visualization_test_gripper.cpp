@@ -7,20 +7,20 @@
 
 
 //function to move the model
-void moveModel(unsigned int ii, Eigen::Transform<double,3,Eigen::Affine> & _pose)
+void moveModel(unsigned int ii, Eigen::Affine3d & _pose)
 {
-    double aa; 
+    float aa; 
     
     if (ii<=40) 
     {
-        aa = (double)ii/100.;
+        aa = (float)ii/100.;
         _pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(sin(aa),0,cos(aa)) );
         _pose.translation() = Eigen::Vector3d(1200+(double)ii*5,0,0); 
     }
     
     if ( (ii>40) && (ii<=80) ) 
     {
-        aa = (double)ii/100.;
+        aa = (float)ii/100.;
         _pose = Eigen::AngleAxisd( M_PI, Eigen::Vector3d(sin(aa),0,cos(aa)) );
         _pose.translation() = Eigen::Vector3d(1200+(double)40*5,ii-40,0); 
     }
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 {
     CrangeImage *myDepthCamera;
     Window *myDepthImage;    
-    Eigen::Transform<double,3,Eigen::Affine> camera_pose; //camera wrt the model
+    Eigen::Affine3d camera_pose; //camera wrt the model
     vector<float> myDepths;
     string modelFileName;
     unsigned int ii;

@@ -192,6 +192,6 @@ class CrangeScan2D
         * TODO: Update of all faramotics to work with doubles
         *
         */              
-        void computeScan(const Eigen::Transform<double,3,Eigen::Affine> & _ps, vector<double> & _scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
+        void computeScan(const Eigen::Affine3d & _ps, vector<double> & _scan); /**<sets the scan vector with expected ranges computed from ss against the 3d model*/
 };
 #endif
