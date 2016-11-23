@@ -85,7 +85,7 @@ void CsceneRender::printRenderParameters()
 void CsceneRender::setViewPoint(const Eigen::Affine3d & _vp)
 {
     view_point_ = _vp;
-    std::cout << "view_point_:" << std::endl << view_point_.matrix() << std::endl; 
+    //std::cout << "view_point_:" << std::endl << view_point_.matrix() << std::endl; 
 }
 
 
@@ -110,9 +110,9 @@ void CsceneRender::render()
 //     Eigen::Transform<double,3,Eigen::Affine> vp(view_point_.inverse());
 //     glLoadMatrixd(vp.data()); //directly from Eigen matrix pointer. See http://eigen.tuxfamily.org/dox/group__TutorialGeometry.html
     
-    //sets openGL matrix through gluLookAt (eye, at, up)
+    //sets openGL matrix through gluLookAt (eye, at, up). eye=translation, at=Kx+eye, up=z
     gluLookAt(  view_point_(0,3), view_point_(1,3), view_point_(2,3),
-                view_point_(0,0)*10000., view_point_(1,0)*10000., view_point_(2,0)*10000.,
+                view_point_(0,0)*10000. + view_point_(0,3), view_point_(1,0)*10000. + view_point_(1,3) , view_point_(2,0)*10000. + view_point_(2,3),
                 view_point_(0,2), view_point_(1,2), view_point_(2,2) );
     
     //calls lists to render
